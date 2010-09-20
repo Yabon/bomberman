@@ -1,11 +1,11 @@
 
-public class Chemin extends Case{
+public class Chemin implements Case{
 
-	boolean est_destructible() {
+	public boolean est_destructible() {
 		return true;
 	}
 	
-	boolean est_traversable() {
+	public boolean est_traversable() {
 		return true;
 	}
 

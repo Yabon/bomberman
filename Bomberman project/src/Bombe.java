@@ -1,13 +1,19 @@
+import java.util.Date;
 
-public class Bombe extends Case {
 
+public class Bombe implements Case {
+
+	int tailleFlamme;
+	Date datePose;
 	
-	boolean est_destructible() {
+	
+	
+	public boolean est_destructible() {
 			return true;
 	}
 		
-	boolean est_traversable() {
+	public boolean est_traversable() {
 			return false;
 	}
-
+		
 }

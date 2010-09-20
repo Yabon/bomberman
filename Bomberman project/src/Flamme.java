@@ -1,11 +1,11 @@
 
-public class Flamme extends Case{
+public class Flamme implements Case{
 
-	boolean est_destructible() {
+	public boolean est_destructible() {
 		return false;
 	}
 
-	boolean est_traversable() {
+	public boolean est_traversable() {
 		return false;
 	}
 	
