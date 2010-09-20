@@ -11,10 +11,60 @@ public class Plateau {
 	public Plateau(int hauteur, int largeur){
 		grilleJeu = new Case[hauteur][largeur];
 		// à implémenter : génération d'un plateau aléatoire
+		genererTerrain();
+		//placer les joueurs a implémenter
+		
 		bombes = new ArrayList<Bombe>(1024); // taille de la liste a l'origine pour éviter la réallocation
 	}
 	
 	public Case getCase(int posX, int posY){
 		return grilleJeu[posY][posX];
+	}
+	
+	private void genererTerrain(){
+		//generation du millieu du plateau
+		for(int hauteur = 1 ; hauteur < grilleJeu.length-1; hauteur++){
+			for(int largeur = 1 ; largeur < grilleJeu[0].length-1; largeur++){
+				if(Math.random()*100>50){
+					grilleJeu[hauteur][largeur] = new Chemin();	
+				}else{
+					grilleJeu[hauteur][largeur] = new Mur_Destructible();	
+				}
+			}
+		}
+		//Generation du tour indéstructible
+		for(int hauteur = 0 ; hauteur < grilleJeu.length; hauteur++){
+			grilleJeu[hauteur][0] = new Mur_Indestructible();
+			grilleJeu[hauteur][14] = new Mur_Indestructible();
+		}
+		for(int largeur = 0 ; largeur < grilleJeu[0].length; largeur++){
+			grilleJeu[0][largeur] = new Mur_Indestructible();
+			grilleJeu[12][largeur] = new Mur_Indestructible();
+		}
+		
+		//Generation des cases indéstructibles au millieu du terrain
+		for(int hauteur = 2 ; hauteur < grilleJeu.length-1; hauteur+=2){
+			for(int largeur = 2 ; largeur < grilleJeu[0].length-1; largeur+=2){
+				grilleJeu[hauteur][largeur] = new Mur_Indestructible();
+			}
+		}
+		
+		//Generation du depart des joueurs
+		grilleJeu[1][1] = new Chemin(); /* ## */
+		grilleJeu[1][2] = new Chemin(); /* #  */
+		grilleJeu[2][1] = new Chemin();
+		
+		grilleJeu[11][13] = new Chemin();/*  # */
+		grilleJeu[11][12] = new Chemin();/* ## */
+		grilleJeu[10][13] = new Chemin();
+		
+		grilleJeu[1][13] = new Chemin();/* ## */
+		grilleJeu[1][12] = new Chemin();/*  # */
+		grilleJeu[2][13] = new Chemin();
+		
+		grilleJeu[11][1] = new Chemin();/* #  */
+		grilleJeu[11][2] = new Chemin();/* ## */
+		grilleJeu[10][1] = new Chemin();
+		
 	}
 }
