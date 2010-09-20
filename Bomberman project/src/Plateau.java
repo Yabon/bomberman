@@ -7,9 +7,19 @@ public class Plateau {
 	 */
 	private Case[][] grilleJeu;
 	List<Bombe> bombes;
+	public int ratio = 100;//Entre 0 et 100 represente le pourcentage de murs déstructibles
 	
-	public Plateau(int hauteur, int largeur){
+	private Plateau(int hauteur, int largeur){
 		grilleJeu = new Case[hauteur][largeur];
+		// à implémenter : génération d'un plateau aléatoire
+		genererTerrain();
+		//placer les joueurs a implémenter
+		
+		bombes = new ArrayList<Bombe>(1024); // taille de la liste a l'origine pour éviter la réallocation
+	}
+	
+	public Plateau(){
+		grilleJeu = new Case[13][15];
 		// à implémenter : génération d'un plateau aléatoire
 		genererTerrain();
 		//placer les joueurs a implémenter
@@ -22,10 +32,12 @@ public class Plateau {
 	}
 	
 	private void genererTerrain(){
+
+	
 		//generation du millieu du plateau
 		for(int hauteur = 1 ; hauteur < grilleJeu.length-1; hauteur++){
 			for(int largeur = 1 ; largeur < grilleJeu[0].length-1; largeur++){
-				if(Math.random()*100>50){
+				if(Math.random()*100>ratio){
 					grilleJeu[hauteur][largeur] = new Chemin();	
 				}else{
 					grilleJeu[hauteur][largeur] = new Mur_Destructible();	
@@ -67,4 +79,28 @@ public class Plateau {
 		grilleJeu[10][1] = new Chemin();
 		
 	}
+
+	public void afficherASCII(){
+		for(int hauteur = 0 ; hauteur < grilleJeu.length; hauteur++){
+			for(int largeur = 0 ; largeur < grilleJeu[0].length; largeur++){
+				if(grilleJeu[hauteur][largeur].est_traversable()){
+					System.out.print("  ");
+				}else if (grilleJeu[hauteur][largeur].est_destructible()){
+					System.out.print("dd");
+				}else{
+					System.out.print("[]");
+				}
+			}
+			System.out.println("");
+		}
+	}
+	
+	public static void main (String args[]){
+		Plateau p = new Plateau();
+		p.afficherASCII();
+	}
+	
 }
+
+
+
