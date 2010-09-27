@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.ArrayList;
-public class Plateau {
+import ucigame.*;
+
+public class Plateau extends Ucigame {
 	
 	/**
 	 * On utilisera la première dimension pour la verticalité et la deuxième pour l'horizontalité
@@ -99,6 +101,14 @@ public class Plateau {
 			}
 			System.out.println("");
 		}
+	}
+	
+	public void setup(){
+		// initialisation de la fenetre
+	}
+	
+	public void draw(){
+		// réaffichage de la fenetre
 	}
 	
 	public static void main (String args[]){
