@@ -15,6 +15,12 @@ public class Bombe implements Case {
 	public boolean est_traversable() {
 			return false;
 	}
+
+	@Override
+	public boolean est_joueur() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 		
 }

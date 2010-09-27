@@ -1,4 +1,3 @@
-
 public class Chemin implements Case{
 
 	public boolean est_destructible() {

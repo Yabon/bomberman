@@ -5,4 +5,6 @@ public interface Case {
 	
 	abstract boolean est_traversable();
 	
+	abstract boolean est_joueur();
+	
 }

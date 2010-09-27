@@ -1,4 +1,3 @@
-
 public class Mur_Indestructible implements Case{
 
 	public boolean est_destructible() {

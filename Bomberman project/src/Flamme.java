@@ -1,4 +1,3 @@
-
 public class Flamme implements Case{
 
 	public boolean est_destructible() {

@@ -8,6 +8,7 @@ public class Plateau {
 	private Case[][] grilleJeu;
 	List<Bombe> bombes;
 	public int ratio = 100;//Entre 0 et 100 represente le pourcentage de murs déstructibles
+	Joueur joueur1 = new Joueur(Joueur.Direction.N,1,1,1);
 	
 	private Plateau(int hauteur, int largeur){
 		grilleJeu = new Case[hauteur][largeur];
@@ -62,9 +63,12 @@ public class Plateau {
 		}
 		
 		//Generation du depart des joueurs
-		grilleJeu[1][1] = new Chemin(); /* ## */
+		
+										/* ## */
 		grilleJeu[1][2] = new Chemin(); /* #  */
 		grilleJeu[2][1] = new Chemin();
+		//grilleJeu[1][1] = new Chemin();
+		grilleJeu[1][1] = joueur1;
 		
 		grilleJeu[11][13] = new Chemin();/*  # */
 		grilleJeu[11][12] = new Chemin();/* ## */
@@ -83,7 +87,9 @@ public class Plateau {
 	public void afficherASCII(){
 		for(int hauteur = 0 ; hauteur < grilleJeu.length; hauteur++){
 			for(int largeur = 0 ; largeur < grilleJeu[0].length; largeur++){
-				if(grilleJeu[hauteur][largeur].est_traversable()){
+				if(hauteur == joueur1.hauteur && largeur == joueur1.largeur){
+					System.out.println(joueur1.toString());					
+				}else if(grilleJeu[hauteur][largeur].est_traversable()){
 					System.out.print("  ");
 				}else if (grilleJeu[hauteur][largeur].est_destructible()){
 					System.out.print("dd");
