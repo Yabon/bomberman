@@ -1,12 +1,36 @@
-import ucigame.*;
-
-public class Joueur extends Ucigame implements Case{
+public class Joueur implements Case{
 
 	public static enum Direction {N,S,E,O};
 	Direction dir;
 	int numero;
 	int hauteur,largeur;
 	
+	public int getHauteur() {
+		return hauteur;
+	}
+
+	public int getLargeur() {
+		return largeur;
+	}
+	
+	public void move(Direction d, boolean b){
+		this.dir = d;
+		switch(d){
+		case N:
+			if(b)hauteur++;
+			break;
+		case S:
+			if(b)hauteur--;
+			break;
+		case O:
+			if(b)largeur--;
+			break;
+		case E:
+			if(b)largeur++;
+			break;
+		}
+	}
+
 	public Joueur(Direction dir, int numero, int hauteur, int largeur){
 		this.dir = dir;
 		this.numero = numero;
@@ -20,22 +44,6 @@ public class Joueur extends Ucigame implements Case{
 	@Override
 	public boolean est_traversable() {
 		return false;
-	}
-	
-	private void move(){
-		if(keyboard.isDown(keyboard.Z)){
-			dir = Direction.N;
-			hauteur++;
-		}else if(keyboard.isDown(keyboard.S)){
-			dir = Direction.S;
-			hauteur--;
-		}else if(keyboard.isDown(keyboard.Q)){
-			dir = Direction.O;
-			largeur--;
-		}else if(keyboard.isDown(keyboard.D)){
-			dir = Direction.E;
-			largeur++;
-		}
 	}
 	
 	public String toString(){

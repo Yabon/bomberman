@@ -11,13 +11,36 @@ public class Plateau extends Ucigame {
 	List<Bombe> bombes;
 	public int ratio = 100;//Entre 0 et 100 represente le pourcentage de murs déstructibles
 	Joueur joueur1 = new Joueur(Joueur.Direction.N,1,1,1);
+	Sprite spriteJoueur1;
 	
-	private Plateau(int hauteur, int largeur){
-		grilleJeu = new Case[hauteur][largeur];
-		// à implémenter : génération d'un plateau aléatoire
-		genererTerrain();
-		//placer les joueurs a implémenter
+	private Plateau(int h, int l){
+		grilleJeu = new Case[h][l];
+		//generation du millieu du plateau
+		for(int hauteur = 1 ; hauteur < grilleJeu.length-1; hauteur++){
+			for(int largeur = 1 ; largeur < grilleJeu[0].length-1; largeur++){
+				if(Math.random()*100>ratio){
+					grilleJeu[hauteur][largeur] = new Chemin();	
+				}else{
+					grilleJeu[hauteur][largeur] = new Mur_Destructible();	
+				}
+			}
+		}
+		//Generation du tour indéstructible
+		for(int hauteur = 0 ; hauteur < grilleJeu.length; hauteur++){
+			grilleJeu[hauteur][0] = new Mur_Indestructible();
+			grilleJeu[hauteur][14] = new Mur_Indestructible();
+		}
+		for(int largeur = 0 ; largeur < grilleJeu[0].length; largeur++){
+			grilleJeu[0][largeur] = new Mur_Indestructible();
+			grilleJeu[12][largeur] = new Mur_Indestructible();
+		}
 		
+		//Generation des cases indéstructibles au millieu du terrain
+		for(int hauteur = 2 ; hauteur < grilleJeu.length-1; hauteur+=2){
+			for(int largeur = 2 ; largeur < grilleJeu[0].length-1; largeur+=2){
+				grilleJeu[hauteur][largeur] = new Mur_Indestructible();
+			}
+		}
 		bombes = new ArrayList<Bombe>(1024); // taille de la liste a l'origine pour éviter la réallocation
 	}
 	
@@ -104,15 +127,45 @@ public class Plateau extends Ucigame {
 	}
 	
 	public void setup(){
-		// initialisation de la fenetre
+		window.size(250, 250);
+        window.title("IBomberMan");
+        window.showFPS();
+        canvas.background(255, 200, 200);
+
+        spriteJoueur1 = makeSprite(getImage("../images/joueur/joueur_bleu/bbas1.gif", 255, 255, 255));
+        
+        spriteJoueur1.position(joueur1.getHauteur(), joueur1.getLargeur());
+
+        framerate(30);
+
+	}
+	
+	public void move(){
+		if(keyboard.isDown(keyboard.Z)){
+			spriteJoueur1.nextY(spriteJoueur1.y()-10);
+			joueur1.move(Joueur.Direction.N, grilleJeu[joueur1.getHauteur()+1][joueur1.getLargeur()].est_traversable());
+		}else if(keyboard.isDown(keyboard.S)){
+			spriteJoueur1.nextY(spriteJoueur1.y()+10);
+			joueur1.move(Joueur.Direction.S, grilleJeu[joueur1.getHauteur()-1][joueur1.getLargeur()].est_traversable());
+		}else if(keyboard.isDown(keyboard.Q)){
+			spriteJoueur1.nextX(spriteJoueur1.x()-10);
+			joueur1.move(Joueur.Direction.O, grilleJeu[joueur1.getHauteur()][joueur1.getLargeur()-1].est_traversable());
+		}else if(keyboard.isDown(keyboard.D)){
+			spriteJoueur1.nextX(spriteJoueur1.x()+10);
+			joueur1.move(Joueur.Direction.E, grilleJeu[joueur1.getHauteur()][joueur1.getLargeur()+1].est_traversable());
+		}
 	}
 	
 	public void draw(){
-		// réaffichage de la fenetre
+		canvas.clear();
+
+        this.move();
+
+        spriteJoueur1.draw();
 	}
 	
 	public static void main (String args[]){
-		Plateau p = new Plateau();
+		Plateau p = new Plateau(20, 20);
 		p.afficherASCII();
 	}
 	
