@@ -175,7 +175,7 @@ public class Plateau extends Ucigame {
 				"../images/joueur/skelbas.gif", 255, 255, 255));
 	}
 
-	public void move() {
+	public void draw() {
 		for(int i=0; i<grilleJeu.length; i++){
 			for(int j=0; j<grilleJeu[0].length; j++){
 				if (!(grilleJeu[i][j] instanceof Chemin)){
@@ -183,22 +183,6 @@ public class Plateau extends Ucigame {
 				}
 			}
 		}
-		if(keyboard.isDown(keyboard.Z)){
-			joueur1.nextY(joueur1.y()-10);
-		}
-		if(keyboard.isDown(keyboard.S)){
-			joueur1.nextY(joueur1.y()+10);
-		}
-		if(keyboard.isDown(keyboard.Q)){
-			joueur1.nextX(joueur1.x()-10);
-		}
-		if(keyboard.isDown(keyboard.D)){
-			joueur1.nextX(joueur1.x()+10);
-		}
-	}
-
-	public void draw() {
-		this.move();
 		
 		canvas.clear();
 				
@@ -213,7 +197,7 @@ public class Plateau extends Ucigame {
 
 	public void onKeyPress()
     {
-            if (keyboard.isDown(keyboard.UP, keyboard.W))
+            if (keyboard.isDown(keyboard.UP, keyboard.Z))
             {
                 joueur1.nextY(joueur1.y() - 10);
             }
@@ -221,7 +205,7 @@ public class Plateau extends Ucigame {
             {
                 joueur1.nextY(joueur1.y() + 10);
             }
-            else if (keyboard.isDown(keyboard.LEFT, keyboard.A))
+            else if (keyboard.isDown(keyboard.LEFT, keyboard.Q))
             {
                 joueur1.nextX(joueur1.x() - 10);
             }
