@@ -1,5 +1,9 @@
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.List;
 import java.util.ArrayList;
+
+import bomberman.editeur.BoutonBomberman;
 import ucigame.*;
 
 public class Plateau extends Ucigame {
@@ -145,7 +149,8 @@ public class Plateau extends Ucigame {
 	public void setup() {
 		/* AJOUT TEST */
 		// génération d'un plateau aléatoire
-		genererTerrain();
+		chargerSauvegarde();
+		//genererTerrain();
 		genererJoueurs();
 
 		
@@ -153,16 +158,16 @@ public class Plateau extends Ucigame {
 		// pour éviter la réallocation
 		/* FIN AJOUT TEST */
 
-		resize(13 * 64, 15 * 48);
-		window.size(13 * 64, 15 * 48);
+		resize(15 * 64, 13 * 48);
+		window.size(15 * 64, 13 * 48);
 		window.title("IBomberMan");
 		window.showFPS();
 		canvas.background(255, 255, 255);
-		this.resize(13 * 64, 15 * 48);
+		this.resize(15 * 64, 13 * 48);
 
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
-					grilleJeu[hauteur][largeur].position(hauteur * 64, largeur * 48);
+					grilleJeu[hauteur][largeur].position(largeur * 64, hauteur * 48);
 			}
 		}
 
@@ -201,6 +206,37 @@ public class Plateau extends Ucigame {
 		joueur1.framerate(15);
 	}
 
+
+	public void chargerSauvegarde(){
+		FileInputStream file;
+		try {
+			file = new FileInputStream("/home/infoetu/bayartr/workspace/bomberman/Bomberman project/src/sauvegarde.save");
+			ObjectInputStream output = new ObjectInputStream(file);
+			BoutonBomberman[][] boutons = (BoutonBomberman[][]) output.readObject();
+			
+			for(int largeur = 0 ; largeur < 15 ; largeur++){
+				for(int hauteur = 0 ; hauteur < 13 ; hauteur++){
+					if(boutons[hauteur][largeur].type.compareTo("mur")==0){
+						grilleJeu[hauteur][largeur] = new Mur_Indestructible(getImage(
+								"../images/bloc/brique/brick.gif", 255, 255, 255));
+					}else if (boutons[hauteur][largeur].type.compareTo("chemin")==0){
+						grilleJeu[hauteur][largeur] = new Chemin(getImage(
+								"../images/bloc/pave/karodark.gif", 255, 255, 255));
+					}else if (boutons[hauteur][largeur].type.compareTo("caisse")==0){
+						grilleJeu[hauteur][largeur] = new Mur_Destructible(
+								getImage("../images/bloc/pave/cityfree.gif", 255,
+										255, 255));
+					}
+				}	
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+	
 	public void draw() {
 		for(int i=0; i<grilleJeu.length; i++){
 			for(int j=0; j<grilleJeu[0].length; j++){
