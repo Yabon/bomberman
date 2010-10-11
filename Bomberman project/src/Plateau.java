@@ -9,9 +9,9 @@ public class Plateau extends Ucigame {
 	 * pour l'horizontalité
 	 */
 	private Case[][] grilleJeu;
-	
+	private Sound fondSonore = getSound("../sound/Bomberman.mp3");
 	private List<Bombe> bombes;
-	public int ratio = 50;// Entre 0 et 100 represente le pourcentage de murs
+	public int ratio = 0;// Entre 0 et 100 represente le pourcentage de murs
 	// destructibles
 	private Joueur joueur1;
 
@@ -180,54 +180,56 @@ public class Plateau extends Ucigame {
 			for(int j=0; j<grilleJeu[0].length; j++){
 				if (!(grilleJeu[i][j] instanceof Chemin)){
 					joueur1.stopIfCollidesWith(grilleJeu[i][j]);
-				}
+				}				
 			}
 		}
 		
 		canvas.clear();
-				
+		
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
-				grilleJeu[hauteur][largeur].draw();		
+				grilleJeu[hauteur][largeur].draw();
 			}
 		}
-		
+		for( int i = 0; i<bombes.size()-1;i++){
+			bombes.get(i).draw();
+			joueur1.stopIfCollidesWith(bombes.get(i));
+		}	
+		fondSonore.play();
 		joueur1.draw();
+		
+		
 	}
 	
-	public void MAJjoueur(){
-		joueur1.hauteur = (int) joueur1.y()/48;
-		joueur1.largeur = (int) joueur1.x()/64;
+	public void explosion(){
+		
 	}
 	
 	public void mouvement(){
 		 if (keyboard.isDown(keyboard.UP, keyboard.Z))
          {
-             joueur1.nextY(joueur1.y() - 10);
-            
+             joueur1.nextY(joueur1.y() - 10);             
          }
-         else if (keyboard.isDown(keyboard.DOWN, keyboard.S))
+         if (keyboard.isDown(keyboard.DOWN, keyboard.S))
          {
              joueur1.nextY(joueur1.y() + 10);
          }
-         else if (keyboard.isDown(keyboard.LEFT, keyboard.Q))
+         if (keyboard.isDown(keyboard.LEFT, keyboard.Q))
          {
              joueur1.nextX(joueur1.x() - 10);
          }
-         else if (keyboard.isDown(keyboard.RIGHT, keyboard.D))
+         if (keyboard.isDown(keyboard.RIGHT, keyboard.D))
          {
              joueur1.nextX(joueur1.x() + 10);
-         }else if(keyboard.isDown(keyboard.SPACE)){
-         	System.out.println("h :"+ joueur1.getHauteur() +" l :"+ joueur1.getLargeur());
-         	grilleJeu[joueur1.getLargeur()][joueur1.getHauteur()] = new Bombe(5,5,5,getImage(
-     				"../images/bombe/bombe0.gif", 255, 255, 255));
+         }
+         if(keyboard.isDown(keyboard.SPACE)){
+         	bombes.add(new Bombe(joueur1.getHauteur()/48,joueur1.getLargeur()/64,5,getImage("../images/bombe/bombe0.gif"),this));
          }
 	}
 	
 	public void onKeyPress()
     {
            mouvement();
-           MAJjoueur();
-        
+                  
     }
 }

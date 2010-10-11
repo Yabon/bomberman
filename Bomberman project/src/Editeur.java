@@ -43,11 +43,7 @@ public class Editeur extends Ucigame{
 	}
 	ActionListener listener = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-				//if (){
-				//	e.setIcon(new ImageIcon("../images/bloc/brique/dark.gif"));
-				//}else if(){
-					
-			//	}
+			
 		}
 			
 	};
@@ -64,7 +60,7 @@ public class Editeur extends Ucigame{
 		Editeur e = new Editeur();
 		e.initialisation();
 	}
-	/*public void affichage(){
+/*public void affichage(){
 		for (int hauteur = 1; hauteur < grilleJeu.length - 1; hauteur++) {
 			for (int largeur = 1; largeur < grilleJeu[0].length - 1; largeur++) {
 				grilleJeu[hauteur][largeur] = new Mur_Destructible(getImage("../images/bloc/pave/cityfree.gif", 255, 255, 255));

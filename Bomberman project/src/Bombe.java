@@ -3,21 +3,24 @@ import java.util.Date;
 import ucigame.*;
 
 
-public class Bombe extends Case implements Runnable {
+public class Bombe extends Case {
 
 	int x,y;
 	int tailleFlamme;
+	Plateau p;
 	long dateExplosion = System.currentTimeMillis()+5000;
 	
-	public Bombe(int x, int y, int tailleFlamme, Image i){
+	public Bombe(int x, int y, int tailleFlamme, Image i,Plateau p){
 		super(i);
 		this.x = x;
 		this.y = y;
 		this.tailleFlamme = tailleFlamme;
+		this.position(y*64, x*48);
+		this.p = p;
 	}
 	
 	public boolean est_traversable() {
-			return false;
+		return false;
 	}
 
 	public boolean est_joueur() {
@@ -25,16 +28,19 @@ public class Bombe extends Case implements Runnable {
 		return false;
 	}
 	
-	public void run() {
-		while(dateExplosion > System.currentTimeMillis() ){
+	
+		
 			
-		}
-		//PlateauGraphique.explosion(tailleFlamme);
-	}
+		
+		
+	
 
-	@Override
 	boolean est_destructible() {
-		// TODO Auto-generated method stub
+		
+		return false;
+	}
+	
+	boolean exploser(){
 		return false;
 	}
 	
