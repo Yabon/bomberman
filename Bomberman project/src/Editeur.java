@@ -1,5 +1,7 @@
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -32,10 +34,27 @@ public class Editeur extends Ucigame{
 					c.add(tab[ligne][colonne]);
 				}else{
 				tab[ligne][colonne] = new JButton("c");
-				tab[ligne][colonne].setIcon(new ImageIcon("/home/foulonb/bomberman/Bomberman project/images/bloc/brique/dark.gif"));
+				tab[ligne][colonne].setIcon(new ImageIcon("../images/bloc/brique/dark.gif"));
 				c.add(tab[ligne][colonne]);
 				f.repaint();
 				}	
+			}
+		}
+	}
+	ActionListener listener = new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+				//if (){
+				//	e.setIcon(new ImageIcon("../images/bloc/brique/dark.gif"));
+				//}else if(){
+					
+			//	}
+		}
+			
+	};
+	public void ajoutListener(){
+		for (int ligne = 0 ; ligne<tab.length;ligne++){
+			for (int colonne = 0 ; colonne<tab[0].length;colonne++){
+				tab[ligne][colonne].addActionListener(listener);
 			}
 		}
 	}

@@ -11,7 +11,7 @@ public class Plateau extends Ucigame {
 	private Case[][] grilleJeu;
 	
 	private List<Bombe> bombes;
-	public int ratio = 0;// Entre 0 et 100 represente le pourcentage de murs
+	public int ratio = 50;// Entre 0 et 100 represente le pourcentage de murs
 	// destructibles
 	private Joueur joueur1;
 
@@ -157,7 +157,7 @@ public class Plateau extends Ucigame {
 		window.size(13 * 64, 15 * 48);
 		window.title("IBomberMan");
 		window.showFPS();
-		canvas.background(100, 255, 100);
+		canvas.background(255, 255, 255);
 		this.resize(13 * 64, 15 * 48);
 
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
@@ -171,8 +171,8 @@ public class Plateau extends Ucigame {
 	}
 
 	private void genererJoueurs() {
-		joueur1 = new Joueur(Joueur.Direction.N, 1, 5 ,7 , getImage(
-				"../images/joueur/skelbas.gif", 255, 255, 255));
+		joueur1 = new Joueur(Joueur.Direction.N, 1, 1 ,1 , getImage(
+				"../images/joueur/skelbas2.gif", 255, 255, 255));
 	}
 
 	public void draw() {
@@ -194,25 +194,40 @@ public class Plateau extends Ucigame {
 		
 		joueur1.draw();
 	}
-
+	
+	public void MAJjoueur(){
+		joueur1.hauteur = (int) joueur1.y()/48;
+		joueur1.largeur = (int) joueur1.x()/64;
+	}
+	
+	public void mouvement(){
+		 if (keyboard.isDown(keyboard.UP, keyboard.Z))
+         {
+             joueur1.nextY(joueur1.y() - 10);
+            
+         }
+         else if (keyboard.isDown(keyboard.DOWN, keyboard.S))
+         {
+             joueur1.nextY(joueur1.y() + 10);
+         }
+         else if (keyboard.isDown(keyboard.LEFT, keyboard.Q))
+         {
+             joueur1.nextX(joueur1.x() - 10);
+         }
+         else if (keyboard.isDown(keyboard.RIGHT, keyboard.D))
+         {
+             joueur1.nextX(joueur1.x() + 10);
+         }else if(keyboard.isDown(keyboard.SPACE)){
+         	System.out.println("h :"+ joueur1.getHauteur() +" l :"+ joueur1.getLargeur());
+         	grilleJeu[joueur1.getLargeur()][joueur1.getHauteur()] = new Bombe(5,5,5,getImage(
+     				"../images/bombe/bombe0.gif", 255, 255, 255));
+         }
+	}
+	
 	public void onKeyPress()
     {
-            if (keyboard.isDown(keyboard.UP, keyboard.Z))
-            {
-                joueur1.nextY(joueur1.y() - 10);
-            }
-            else if (keyboard.isDown(keyboard.DOWN, keyboard.S))
-            {
-                joueur1.nextY(joueur1.y() + 10);
-            }
-            else if (keyboard.isDown(keyboard.LEFT, keyboard.Q))
-            {
-                joueur1.nextX(joueur1.x() - 10);
-            }
-            else if (keyboard.isDown(keyboard.RIGHT, keyboard.D))
-            {
-                joueur1.nextX(joueur1.x() + 10);
-            }
+           mouvement();
+           MAJjoueur();
         
     }
 }
