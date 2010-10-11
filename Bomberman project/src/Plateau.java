@@ -171,8 +171,34 @@ public class Plateau extends Ucigame {
 	}
 
 	private void genererJoueurs() {
-		joueur1 = new Joueur(Joueur.Direction.N, 1, 1 ,1 , getImage(
-				"../images/joueur/skelbas2.gif", 255, 255, 255));
+		Image bomber = getImage("../images/joueur/Bomberblanc2.gif", 255, 255, 255);
+		joueur1 = new Joueur(Joueur.Direction.S, 1, 1 ,1 , bomber);
+		joueur1.addFrames(bomber, 
+				175,182,        //Bas1
+				262,182,		//Bas2
+				350,182,		//Bas3
+				0,182,			//Bas4
+				87,182,			//Bas5
+				175,94,         //Droite6
+				262,94,			//Droite7
+				350,94,			//Droite8
+				0,94,			//Droite9
+				87,94,			//Droite10		
+				175,269,        //Haut11
+				262,269,		//Haut12
+				350,269,		//Haut13
+				0,269,			//Haut14
+				87,269,			//Haut15
+				175,349,        //Gauche16
+				262,349,		//Gauche17
+				350,349,		//Gauche18
+				0,349,			//Gauche19
+				87,349);		//Gauche20	
+		joueur1.defineSequence("Bas", 2,3,2,1,5,4,5,1);
+		joueur1.defineSequence("Droite", 7,8,9,10,6);
+		joueur1.defineSequence("Haut", 12,13,12,11,15,14,15,11);
+		joueur1.defineSequence("Gauche", 17,18,19,20,16);
+		joueur1.framerate(15);
 	}
 
 	public void draw() {
@@ -208,19 +234,24 @@ public class Plateau extends Ucigame {
 	public void mouvement(){
 		 if (keyboard.isDown(keyboard.UP, keyboard.Z))
          {
-             joueur1.nextY(joueur1.y() - 10);             
+             joueur1.nextY(joueur1.y() - 4);
+             joueur1.play("Haut");
+           
          }
          if (keyboard.isDown(keyboard.DOWN, keyboard.S))
          {
-             joueur1.nextY(joueur1.y() + 10);
+             joueur1.nextY(joueur1.y() + 4);
+             joueur1.play("Bas");
          }
          if (keyboard.isDown(keyboard.LEFT, keyboard.Q))
          {
-             joueur1.nextX(joueur1.x() - 10);
+             joueur1.nextX(joueur1.x() - 4);
+             joueur1.play("Gauche");
          }
          if (keyboard.isDown(keyboard.RIGHT, keyboard.D))
          {
-             joueur1.nextX(joueur1.x() + 10);
+             joueur1.nextX(joueur1.x() + 4);
+             joueur1.play("Droite");
          }
          if(keyboard.isDown(keyboard.SPACE)){
          	bombes.add(new Bombe(joueur1.getHauteur()/48,joueur1.getLargeur()/64,5,getImage("../images/bombe/bombe0.gif"),this));

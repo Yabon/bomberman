@@ -12,7 +12,7 @@ public class Joueur extends Sprite {
 	int hauteur, largeur;
 
 	public Joueur(Direction dir, int numero, int hauteur, int largeur, Image i) {
-		super(i);
+		super(i, 28, 44);
 		this.dir = dir;
 		this.numero = numero;
 		this.hauteur = hauteur;
