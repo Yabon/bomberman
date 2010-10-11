@@ -13,6 +13,4 @@ public  abstract class Case extends Sprite{
 	
 	abstract boolean est_traversable();
 	
-	abstract boolean est_joueur();
-	
 }

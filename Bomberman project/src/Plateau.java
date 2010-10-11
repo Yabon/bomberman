@@ -15,6 +15,7 @@ public class Plateau extends Ucigame {
 	private Case[][] grilleJeu;
 	private Sound fondSonore = getSound("../sound/Bomberman.mp3");
 	private List<Bombe> bombes;
+	private List<Flamme> flammes;
 	public int ratio = 0;// Entre 0 et 100 represente le pourcentage de murs
 	// destructibles
 	private Joueur joueur1;
@@ -68,6 +69,8 @@ public class Plateau extends Ucigame {
 
 		bombes = new ArrayList<Bombe>(1024); // taille de la liste a l'origine
 		// pour éviter la réallocation
+
+		flammes = new ArrayList<Flamme>(1024);
 	}
 
 	public Case getCase(int posX, int posY) {
@@ -149,8 +152,8 @@ public class Plateau extends Ucigame {
 	public void setup() {
 		/* AJOUT TEST */
 		// génération d'un plateau aléatoire
-		chargerSauvegarde();
-		//genererTerrain();
+		//chargerSauvegarde();
+		genererTerrain();
 		genererJoueurs();
 
 		
@@ -172,6 +175,7 @@ public class Plateau extends Ucigame {
 		}
 
 		framerate(30);
+		//fondSonore.loop();
 
 	}
 
@@ -245,19 +249,29 @@ public class Plateau extends Ucigame {
 				}				
 			}
 		}
-		
 		canvas.clear();
+		
 		
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
 				grilleJeu[hauteur][largeur].draw();
 			}
 		}
-		for( int i = 0; i<bombes.size()-1;i++){
-			bombes.get(i).draw();
-			joueur1.stopIfCollidesWith(bombes.get(i));
+		for( Bombe b : bombes){
+			if(b.isBurst){
+				bombes.remove(b);
+			}else{
+				b.draw();
+				joueur1.stopIfCollidesWith(b);
+				if(b.readyToExplode()){
+					b.burst();
+				}
+			}
 		}	
-		fondSonore.play();
+		for(Flamme f : flammes){
+			f.draw();
+			f.spread();
+		}
 		joueur1.draw();
 		
 		
@@ -299,4 +313,12 @@ public class Plateau extends Ucigame {
            mouvement();
                   
     }
+
+	public void createFlamme(int x, int y, int taille, Joueur.Direction d){
+		if(x>0 && y>0 && x<15 && y<13){
+			if(grilleJeu[y][x].est_destructible()){
+				flammes.add(new Flamme(x, y, getImage("../images/flamme/0_zero.gif"), taille, this, d));	
+			}
+		}
+	}
 }

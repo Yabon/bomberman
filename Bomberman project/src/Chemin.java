@@ -15,9 +15,4 @@ public class Chemin extends Case{
 		return true;
 	}
 
-	@Override
-	public boolean est_joueur() {
-		return false;
-	}
-
 }

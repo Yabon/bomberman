@@ -9,24 +9,26 @@ public class Joueur extends Sprite {
 
 	Direction dir;
 	int numero;
-	int hauteur, largeur;
 
 	public Joueur(Direction dir, int numero, int hauteur, int largeur, Image i) {
 		super(i, 28, 44);
 		this.dir = dir;
 		this.numero = numero;
-		this.hauteur = hauteur;
-		this.largeur = largeur;
-		this.position(largeur * 64, hauteur*48);
+		this.position(largeur * 64 , hauteur*48 );
 	}
 
 	public int getHauteur() {
-		return this.hauteur = this.yPixel();
+		return this.yPixel();
 	
 	}
 
 	public int getLargeur() {
-		return this.largeur = this.xPixel();
+		return this.xPixel();
+	}
+	
+	public boolean exploser(){
+		
+		return false;
 	}
 
 }

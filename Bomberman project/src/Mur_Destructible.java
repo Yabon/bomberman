@@ -15,10 +15,4 @@ public class Mur_Destructible extends Case{
 		return false;
 	}
 
-	@Override
-	boolean est_joueur() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

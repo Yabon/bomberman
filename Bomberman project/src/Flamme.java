@@ -2,9 +2,34 @@ import ucigame.Image;
 
 public class Flamme extends Case{
 
-	public Flamme(Image i) {
+	int tailleRestante;
+	Plateau plateau;
+	Joueur.Direction direction;
+	
+	public Flamme(int x, int y, Image i, int t, Plateau p, Joueur.Direction d) {
 		super(i);
-		// TODO Auto-generated constructor stub
+		tailleRestante = t;
+		this.plateau = p;
+		this.position(y*64, x*48);
+	}
+	
+	public void spread(){
+		if(tailleRestante > 0){
+			switch(direction){
+			case N :
+				plateau.createFlamme(this.xPixel()/48, (this.yPixel()/64)-1, tailleRestante-1, direction);
+				break;
+			case S :
+				plateau.createFlamme(this.xPixel()/48, (this.yPixel()/64)+1, tailleRestante-1, direction);
+				break;
+			case E :
+				plateau.createFlamme((this.xPixel()/48)+1, (this.yPixel()/64), tailleRestante-1, direction);
+				break;
+			case O :
+				plateau.createFlamme((this.xPixel()/48)-1, (this.yPixel()/64), tailleRestante-1, direction);
+				break;
+			}
+		}
 	}
 
 	public boolean est_destructible() {
@@ -12,13 +37,7 @@ public class Flamme extends Case{
 	}
 
 	public boolean est_traversable() {
-		return false;
-	}
-
-	@Override
-	boolean est_joueur() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	
 	
