@@ -175,7 +175,7 @@ public class Plateau extends Ucigame {
 		}
 
 		framerate(30);
-		//fondSonore.loop();
+		fondSonore.loop();
 
 	}
 
@@ -210,7 +210,6 @@ public class Plateau extends Ucigame {
 		joueur1.framerate(15);
 	}
 
-
 	public void chargerSauvegarde(){
 		FileInputStream file;
 		try {
@@ -239,7 +238,6 @@ public class Plateau extends Ucigame {
 			e.printStackTrace();
 		}	
 	}
-	
 	
 	public void draw() {
 		for(int i=0; i<grilleJeu.length; i++){
@@ -277,10 +275,6 @@ public class Plateau extends Ucigame {
 		
 	}
 	
-	public void explosion(){
-		
-	}
-	
 	public void mouvement(){
 		 if (keyboard.isDown(keyboard.UP, keyboard.Z))
          {
@@ -315,7 +309,7 @@ public class Plateau extends Ucigame {
     }
 
 	public void createFlamme(int x, int y, int taille, Joueur.Direction d){
-		if(x>0 && y>0 && x<15 && y<13){
+		if(x>0 && y>0 && x<grilleJeu.length && y<grilleJeu[0].length){
 			if(grilleJeu[y][x].est_destructible()){
 				flammes.add(new Flamme(x, y, getImage("../images/flamme/0_zero.gif"), taille, this, d));	
 			}

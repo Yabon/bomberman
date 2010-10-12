@@ -10,7 +10,9 @@ public class Flamme extends Case{
 		super(i);
 		tailleRestante = t;
 		this.plateau = p;
+		direction = d;
 		this.position(y*64, x*48);
+		System.out.println("toto");
 	}
 	
 	public void spread(){
