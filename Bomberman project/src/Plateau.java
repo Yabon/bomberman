@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -8,57 +9,20 @@ import ucigame.*;
 
 public class Plateau extends Ucigame {
 
+	private static final long serialVersionUID = -2152091601478495650L;
 	/**
 	 * On utilisera la première dimension pour la verticalité et la deuxième
 	 * pour l'horizontalité
 	 */
 	private Case[][] grilleJeu;
-	private Sound fondSonore = getSound("../sound/Bomberman.mp3");
+	private Sound fondSonore = getSound("../sound/Hand in Hand.mp3");
+	private Sound explodeSound = getSound("../sound/explosion.mp3");
+	private Sound blowSound = getSound("../sound/souffleFlammes.mp3");
 	private List<Bombe> bombes;
 	private List<Flamme> flammes;
 	public int ratio = 0;// Entre 0 et 100 represente le pourcentage de murs
 	// destructibles
 	private Joueur joueur1;
-
-	private Plateau(int h, int l) {
-		grilleJeu = new Case[h][l];
-		// generation du millieu du plateau
-		for (int hauteur = 1; hauteur < grilleJeu.length - 1; hauteur++) {
-			for (int largeur = 1; largeur < grilleJeu[0].length - 1; largeur++) {
-				if (Math.random() * 100 > ratio) {
-					grilleJeu[hauteur][largeur] = new Chemin(getImage(
-							"../images/bloc/pave/karodark.gif", 255, 255, 255));
-				} else {
-					grilleJeu[hauteur][largeur] = new Mur_Destructible(
-							getImage("../images/bloc/pave/cityfree.gif", 255,
-									255, 255));
-				}
-			}
-		}
-		// Generation du tour indéstructible
-		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
-			grilleJeu[hauteur][0] = new Mur_Indestructible(getImage(
-					"../images/bloc/pave/brick.gif", 255, 255, 255));
-			grilleJeu[hauteur][14] = new Mur_Indestructible(getImage(
-					"../images/bloc/pave/brick.gif", 255, 255, 255));
-		}
-		for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
-			grilleJeu[0][largeur] = new Mur_Indestructible(getImage(
-					"../images/bloc/pave/brick.gif", 255, 255, 255));
-			grilleJeu[12][largeur] = new Mur_Indestructible(getImage(
-					"../images/bloc/pave/brick.gif", 255, 255, 255));
-		}
-
-		// Generation des cases indéstructibles au millieu du terrain
-		for (int hauteur = 2; hauteur < grilleJeu.length - 1; hauteur += 2) {
-			for (int largeur = 2; largeur < grilleJeu[0].length - 1; largeur += 2) {
-				grilleJeu[hauteur][largeur] = new Mur_Indestructible(getImage(
-						"../images/bloc/pave/brick.gif", 255, 255, 255));
-			}
-		}
-		bombes = new ArrayList<Bombe>(1024); // taille de la liste a l'origine
-		// pour éviter la réallocation
-	}
 
 	public Plateau() {
 
@@ -67,7 +31,7 @@ public class Plateau extends Ucigame {
 		genererTerrain();
 		// placer les joueurs a implémenter
 
-		bombes = new ArrayList<Bombe>(1024); // taille de la liste a l'origine
+		bombes = new LinkedList<Bombe>(); // taille de la liste a l'origine
 		// pour éviter la réallocation
 
 		flammes = new ArrayList<Flamme>(1024);
@@ -152,13 +116,14 @@ public class Plateau extends Ucigame {
 	public void setup() {
 		/* AJOUT TEST */
 		// génération d'un plateau aléatoire
+		fondSonore.loop();
 		//chargerSauvegarde();
 		genererTerrain();
 		genererJoueurs();
 
+
 		
-		bombes = new ArrayList<Bombe>(1024); // taille de la liste a l'origine
-		// pour éviter la réallocation
+		bombes = new LinkedList<Bombe>();
 		/* FIN AJOUT TEST */
 
 		resize(15 * 64, 13 * 48);
@@ -166,7 +131,6 @@ public class Plateau extends Ucigame {
 		window.title("IBomberMan");
 		window.showFPS();
 		canvas.background(255, 255, 255);
-		this.resize(15 * 64, 13 * 48);
 
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
@@ -175,7 +139,6 @@ public class Plateau extends Ucigame {
 		}
 
 		framerate(30);
-		fondSonore.loop();
 
 	}
 
@@ -213,7 +176,7 @@ public class Plateau extends Ucigame {
 	public void chargerSauvegarde(){
 		FileInputStream file;
 		try {
-			file = new FileInputStream("/home/infoetu/bayartr/workspace/bomberman/Bomberman project/src/sauvegarde.save");
+			file = new FileInputStream("../sauvegarde.save");
 			ObjectInputStream output = new ObjectInputStream(file);
 			BoutonBomberman[][] boutons = (BoutonBomberman[][]) output.readObject();
 			
@@ -234,7 +197,6 @@ public class Plateau extends Ucigame {
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	}
@@ -255,21 +217,27 @@ public class Plateau extends Ucigame {
 				grilleJeu[hauteur][largeur].draw();
 			}
 		}
+		for(Flamme f : flammes){
+			if(f.isBlown()){
+				f.hide();
+			}else{
+				f.draw();
+				//blowSound.play();
+				f.spread();
+			}
+		}
 		for( Bombe b : bombes){
-			if(b.isBurst){
-				bombes.remove(b);
+			if(b.isBurst()){
+				b.hide();
 			}else{
 				b.draw();
 				joueur1.stopIfCollidesWith(b);
 				if(b.readyToExplode()){
 					b.burst();
+					//explodeSound.play();
 				}
 			}
 		}	
-		for(Flamme f : flammes){
-			f.draw();
-			f.spread();
-		}
 		joueur1.draw();
 		
 		
@@ -305,7 +273,6 @@ public class Plateau extends Ucigame {
 	public void onKeyPress()
     {
            mouvement();
-                  
     }
 
 	public void createFlamme(int x, int y, int taille, Joueur.Direction d){

@@ -2,18 +2,20 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import ucigame.Sprite;
 import ucigame.Ucigame;
 
 
 public class Editeur extends Ucigame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1413529883595625321L;
 	/*Case[][] grilleJeu = new Case[13][15];
 	Sprite s,d;
 	boolean b = true;*/

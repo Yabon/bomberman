@@ -5,7 +5,7 @@ public class Bombe extends Case {
 
 	int x,y;
 	int tailleFlamme;
-	Plateau p;
+	Plateau plateau;
 	long dateExplosion;
 	boolean isBurst;
 	
@@ -15,7 +15,7 @@ public class Bombe extends Case {
 		this.y = y;
 		this.tailleFlamme = tailleFlamme;
 		this.position(y*64, x*48);
-		this.p = p;
+		this.plateau = p;
 		dateExplosion = System.currentTimeMillis()+(long)5000;
 		isBurst = false;
 	}
@@ -29,11 +29,15 @@ public class Bombe extends Case {
 	}
 	
 	public void burst(){
-		p.createFlamme(this.x+1, this.y, this.tailleFlamme, Joueur.Direction.E);
-		p.createFlamme(this.x-1, this.y, this.tailleFlamme, Joueur.Direction.O);
-		p.createFlamme(this.x, this.y+1, this.tailleFlamme, Joueur.Direction.S);
-		p.createFlamme(this.x, this.y-1, this.tailleFlamme, Joueur.Direction.N);
+		plateau.createFlamme(this.x+1, this.y, this.tailleFlamme, Joueur.Direction.E);
+		plateau.createFlamme(this.x-1, this.y, this.tailleFlamme, Joueur.Direction.O);
+		plateau.createFlamme(this.x, this.y+1, this.tailleFlamme, Joueur.Direction.S);
+		plateau.createFlamme(this.x, this.y-1, this.tailleFlamme, Joueur.Direction.N);
 		isBurst = true;
+	}
+	
+	public boolean isBurst(){
+		return isBurst;
 	}
 	
 	public boolean readyToExplode(){

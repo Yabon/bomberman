@@ -2,6 +2,7 @@ package bomberman.editeur;
 
 
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
@@ -58,9 +59,13 @@ public class BoutonBomberman extends JButton{
 	}
 
 	public void sauvegarder() {
+		File f = new File("./sauvegarde.save");
+		if(f.exists()){
+			f.delete();
+		}
 		FileOutputStream file;
 		try {
-			file = new FileOutputStream("/home/infoetu/bayartr/workspace/bomberman/Bomberman project/src/sauvegarde.save");
+			file = new FileOutputStream(f);
 			ObjectOutputStream output = new ObjectOutputStream(file);
 			output.writeObject(fenetre.boutons);
 		} catch (Exception e) {

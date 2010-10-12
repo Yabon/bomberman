@@ -5,6 +5,7 @@ public class Flamme extends Case{
 	int tailleRestante;
 	Plateau plateau;
 	Joueur.Direction direction;
+	long dateFin;
 	
 	public Flamme(int x, int y, Image i, int t, Plateau p, Joueur.Direction d) {
 		super(i);
@@ -12,7 +13,7 @@ public class Flamme extends Case{
 		this.plateau = p;
 		direction = d;
 		this.position(y*64, x*48);
-		System.out.println("toto");
+		dateFin = System.currentTimeMillis()+500;
 	}
 	
 	public void spread(){
@@ -42,6 +43,8 @@ public class Flamme extends Case{
 		return true;
 	}
 	
-	
+	public boolean isBlown(){
+		return dateFin < System.currentTimeMillis();
+	}
 
 }
