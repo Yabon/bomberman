@@ -19,7 +19,7 @@ public class Flamme extends Case{
 	}
 	
 	public void spread(){
-		if(tailleRestante > 0){
+		if(direction != null && tailleRestante > 0){
 			switch(direction){
 			case N :
 				plateau.createFlamme(this.yPixel()/48, (this.xPixel()/64)-1, tailleRestante-1, direction, dateFin);

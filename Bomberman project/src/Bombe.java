@@ -3,11 +3,11 @@ import ucigame.*;
 
 public class Bombe extends Case {
 
-	int x,y;
-	int tailleFlamme;
-	Plateau plateau;
-	long dateExplosion;
-	boolean isBurst;
+	private int x,y;
+	private int tailleFlamme;
+	private Plateau plateau;
+	private long dateExplosion;
+	private boolean isBurst;
 	
 	public Bombe(int x, int y, int tailleFlamme, Image i,Plateau p){
 		super(i, x, y);
@@ -33,6 +33,7 @@ public class Bombe extends Case {
 		plateau.createFlamme(this.x-1, this.y, this.tailleFlamme, Direction.O, d);
 		plateau.createFlamme(this.x, this.y+1, this.tailleFlamme, Direction.S, d);
 		plateau.createFlamme(this.x, this.y-1, this.tailleFlamme, Direction.N, d);
+		plateau.createFlamme(this.x, this.y, 1, null, d);
 		isBurst = true;
 	}
 	
