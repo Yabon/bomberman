@@ -6,6 +6,7 @@ public class Flamme extends Case{
 	Plateau plateau;
 	Joueur.Direction direction;
 	long dateFin;
+	boolean isSpread;
 	
 	public Flamme(int x, int y, Image i, int t, Plateau p, Joueur.Direction d) {
 		super(i);
@@ -14,6 +15,7 @@ public class Flamme extends Case{
 		direction = d;
 		this.position(y*64, x*48);
 		dateFin = System.currentTimeMillis()+500;
+		isSpread = false;
 	}
 	
 	public void spread(){
@@ -33,6 +35,7 @@ public class Flamme extends Case{
 				break;
 			}
 		}
+		isSpread = true;
 	}
 
 	public boolean est_destructible() {
@@ -47,4 +50,7 @@ public class Flamme extends Case{
 		return dateFin < System.currentTimeMillis();
 	}
 
+	public boolean isSpread(){
+		return isSpread;
+	}
 }

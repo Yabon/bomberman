@@ -15,7 +15,7 @@ public class Plateau extends Ucigame {
 	 * pour l'horizontalité
 	 */
 	private Case[][] grilleJeu;
-	private Sound fondSonore = getSound("../sound/Hand in Hand.mp3");
+	private Sound fondSonore = getSound("../sound/Bomberman.mp3");
 	private Sound explodeSound = getSound("../sound/explosion.mp3");
 	private Sound blowSound = getSound("../sound/souffleFlammes.mp3");
 	private List<Bombe> bombes;
@@ -222,8 +222,10 @@ public class Plateau extends Ucigame {
 				f.hide();
 			}else{
 				f.draw();
-				//blowSound.play();
-				f.spread();
+				if(!f.isSpread()){
+					blowSound.play();
+					f.spread();
+				}
 			}
 		}
 		for( Bombe b : bombes){
@@ -234,7 +236,8 @@ public class Plateau extends Ucigame {
 				joueur1.stopIfCollidesWith(b);
 				if(b.readyToExplode()){
 					b.burst();
-					//explodeSound.play();
+					explodeSound.play();
+					blowSound.play();
 				}
 			}
 		}	
