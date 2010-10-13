@@ -3,10 +3,6 @@ import ucigame.Sprite;
 
 public class Joueur extends Sprite {
 
-	public static enum Direction {
-		N, S, E, O
-	};
-
 	Direction dir;
 	int numero;
 

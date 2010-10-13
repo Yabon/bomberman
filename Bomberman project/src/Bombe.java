@@ -29,10 +29,11 @@ public class Bombe extends Case {
 	}
 	
 	public void burst(){
-		plateau.createFlamme(this.x+1, this.y, this.tailleFlamme, Joueur.Direction.E);
-		plateau.createFlamme(this.x-1, this.y, this.tailleFlamme, Joueur.Direction.O);
-		plateau.createFlamme(this.x, this.y+1, this.tailleFlamme, Joueur.Direction.S);
-		plateau.createFlamme(this.x, this.y-1, this.tailleFlamme, Joueur.Direction.N);
+		long d = dateExplosion+Flamme.duree;
+		plateau.createFlamme(this.x+1, this.y, this.tailleFlamme, Direction.E, d);
+		plateau.createFlamme(this.x-1, this.y, this.tailleFlamme, Direction.O, d);
+		plateau.createFlamme(this.x, this.y+1, this.tailleFlamme, Direction.S, d);
+		plateau.createFlamme(this.x, this.y-1, this.tailleFlamme, Direction.N, d);
 		isBurst = true;
 	}
 	

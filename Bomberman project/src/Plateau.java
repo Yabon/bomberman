@@ -15,7 +15,7 @@ public class Plateau extends Ucigame {
 	 * pour l'horizontalité
 	 */
 	private Case[][] grilleJeu;
-	private Sound fondSonore = getSound("../sound/Bomberman.mp3");
+	private Sound fondSonore = getSound("../sound/Hand in Hand.mp3");
 	private Sound explodeSound = getSound("../sound/explosion.mp3");
 	private Sound blowSound = getSound("../sound/souffleFlammes.mp3");
 	private List<Bombe> bombes;
@@ -117,8 +117,8 @@ public class Plateau extends Ucigame {
 		/* AJOUT TEST */
 		// génération d'un plateau aléatoire
 		fondSonore.loop();
-		//chargerSauvegarde();
-		genererTerrain();
+		chargerSauvegarde();
+		//genererTerrain();
 		genererJoueurs();
 
 
@@ -144,7 +144,7 @@ public class Plateau extends Ucigame {
 
 	private void genererJoueurs() {
 		Image bomber = getImage("../images/joueur/Bomberblanc2.gif", 255, 255, 255);
-		joueur1 = new Joueur(Joueur.Direction.S, 1, 1 ,1 , bomber);
+		joueur1 = new Joueur(Direction.S, 1, 1 ,1 , bomber);
 		joueur1.addFrames(bomber, 
 				175,182,        //Bas1
 				262,182,		//Bas2
@@ -167,9 +167,9 @@ public class Plateau extends Ucigame {
 				0,349,			//Gauche19
 				87,349);		//Gauche20	
 		joueur1.defineSequence("Bas", 2,3,2,1,5,4,5,1);
-		joueur1.defineSequence("Droite", 7,8,9,10,6);
+		joueur1.defineSequence("Droite",7,8,7,6,10,9,10,6);
 		joueur1.defineSequence("Haut", 12,13,12,11,15,14,15,11);
-		joueur1.defineSequence("Gauche", 17,18,19,20,16);
+		joueur1.defineSequence("Gauche", 17,18,17,16,20,19,20,16);
 		joueur1.framerate(15);
 	}
 
@@ -202,35 +202,35 @@ public class Plateau extends Ucigame {
 	}
 	
 	public void draw() {
+		canvas.clear();
+		
 		for(int i=0; i<grilleJeu.length; i++){
 			for(int j=0; j<grilleJeu[0].length; j++){
+				grilleJeu[i][j].draw();
 				if (!(grilleJeu[i][j] instanceof Chemin)){
 					joueur1.stopIfCollidesWith(grilleJeu[i][j]);
 				}				
 			}
 		}
-		canvas.clear();
 		
-		
-		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
-			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
-				grilleJeu[hauteur][largeur].draw();
-			}
-		}
-		for(Flamme f : flammes){
-			if(f.isBlown()){
-				f.hide();
-			}else{
+		for(int i=0; i<flammes.size(); i++){
+		 	Flamme f = flammes.get(i);
+			if(!f.isBlown()){
 				f.draw();
 				if(!f.isSpread()){
-					blowSound.play();
-					f.spread();
-				}
-			}
+		 			f.spread();
+		 		}
+		 	}else{
+		 		f.hide();
+		 		flammes.remove(f);
+		 	}
 		}
-		for( Bombe b : bombes){
+		
+		for(int i=0; i<bombes.size(); i++){
+			Bombe b = bombes.get(i);
 			if(b.isBurst()){
 				b.hide();
+				bombes.remove(b);
 			}else{
 				b.draw();
 				joueur1.stopIfCollidesWith(b);
@@ -241,9 +241,8 @@ public class Plateau extends Ucigame {
 				}
 			}
 		}	
+		
 		joueur1.draw();
-		
-		
 	}
 	
 	public void mouvement(){
@@ -278,10 +277,10 @@ public class Plateau extends Ucigame {
            mouvement();
     }
 
-	public void createFlamme(int x, int y, int taille, Joueur.Direction d){
+	public void createFlamme(int x, int y, int taille, Direction d, long dateFin){
 		if(x>0 && y>0 && x<grilleJeu.length && y<grilleJeu[0].length){
 			if(grilleJeu[y][x].est_destructible()){
-				flammes.add(new Flamme(x, y, getImage("../images/flamme/0_zero.gif"), taille, this, d));	
+				flammes.add(new Flamme(x, y, getImage("../images/flamme/0_zero.gif"), taille, this, d, dateFin));	
 			}
 		}
 	}
