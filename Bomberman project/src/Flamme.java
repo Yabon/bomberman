@@ -10,11 +10,10 @@ public class Flamme extends Case{
 	public final static long duree = 500;
 	
 	public Flamme(int x, int y, Image i, int t, Plateau p, Direction d, long dateFin) {
-		super(i);
+		super(i, x, y);
 		tailleRestante = t;
 		this.plateau = p;
 		direction = d;
-		this.position(y*64, x*48);
 		this.dateFin = dateFin;
 		isSpread = false;
 	}

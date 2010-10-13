@@ -14,17 +14,11 @@ public class Joueur extends Sprite {
 	}
 
 	public int getHauteur() {
-		return this.yPixel();
-	
+		return (this.yPixel()+24)/48;
 	}
 
 	public int getLargeur() {
-		return this.xPixel();
-	}
-	
-	public boolean exploser(){
-		
-		return false;
+		return (this.xPixel()+32)/64;
 	}
 
 }

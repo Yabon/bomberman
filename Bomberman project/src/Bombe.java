@@ -10,11 +10,10 @@ public class Bombe extends Case {
 	boolean isBurst;
 	
 	public Bombe(int x, int y, int tailleFlamme, Image i,Plateau p){
-		super(i);
+		super(i, x, y);
 		this.x = x;
 		this.y = y;
 		this.tailleFlamme = tailleFlamme;
-		this.position(y*64, x*48);
 		this.plateau = p;
 		dateExplosion = System.currentTimeMillis()+(long)5000;
 		isBurst = false;

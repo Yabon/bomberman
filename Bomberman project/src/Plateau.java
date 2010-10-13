@@ -14,10 +14,18 @@ public class Plateau extends Ucigame {
 	 * On utilisera la première dimension pour la verticalité et la deuxième
 	 * pour l'horizontalité
 	 */
-	private Case[][] grilleJeu;
+	private String imageChemin = "../images/bloc/pave/karodark.gif";
+	private String imageMurDestructible = "../images/bloc/pave/cityfree.gif";
+	private String imageMurIndestructible = "../images/bloc/brique/brick.gif";
+	private String imageBomber = "../images/joueur/Bomberblanc2.gif";
+	private String imageBombe = "../images/bombe/bombe0.gif";
+	private String imageFlamme = "../images/flamme/0_zero.gif";
+	
 	private Sound fondSonore = getSound("../sound/Hand in Hand.mp3");
 	private Sound explodeSound = getSound("../sound/explosion.mp3");
 	private Sound blowSound = getSound("../sound/souffleFlammes.mp3");
+	
+	private Case[][] grilleJeu;
 	private List<Bombe> bombes;
 	private List<Flamme> flammes;
 	public int ratio = 0;// Entre 0 et 100 represente le pourcentage de murs
@@ -48,33 +56,33 @@ public class Plateau extends Ucigame {
 			for (int largeur = 1; largeur < grilleJeu[0].length - 1; largeur++) {
 				if (Math.random() * 100 > ratio) {
 					grilleJeu[hauteur][largeur] = new Chemin(getImage(
-							"../images/bloc/pave/karodark.gif", 255, 255, 255));
+							imageChemin, 255, 255, 255), largeur, hauteur);
 				} else {
 					grilleJeu[hauteur][largeur] = new Mur_Destructible(
-							getImage("../images/bloc/pave/cityfree.gif", 255,
-									255, 255));
+							getImage(imageMurDestructible, 255,
+									255, 255), largeur, hauteur);
 				}
 			}
 		}
 		// Generation du tour indéstructible
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			grilleJeu[hauteur][0] = new Mur_Indestructible(getImage(
-					"../images/bloc/brique/brick.gif", 255, 255, 255));
+					imageMurIndestructible, 255, 255, 255), 0, hauteur);
 			grilleJeu[hauteur][14] = new Mur_Indestructible(getImage(
-					"../images/bloc/brique/brick.gif", 255, 255, 255));
+					imageMurIndestructible, 255, 255, 255), 14, hauteur);
 		}
 		for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
 			grilleJeu[0][largeur] = new Mur_Indestructible(getImage(
-					"../images/bloc/brique/brick.gif", 255, 255, 255));
+					imageMurIndestructible, 255, 255, 255), largeur, 0);
 			grilleJeu[12][largeur] = new Mur_Indestructible(getImage(
-					"../images/bloc/brique/brick.gif", 255, 255, 255));
+					imageMurIndestructible, 255, 255, 255), largeur, 12);
 		}
 
 		// Generation des cases indéstructibles au millieu du terrain
 		for (int hauteur = 2; hauteur < grilleJeu.length - 1; hauteur += 2) {
 			for (int largeur = 2; largeur < grilleJeu[0].length - 1; largeur += 2) {
 				grilleJeu[hauteur][largeur] = new Mur_Indestructible(getImage(
-						"../images/bloc/brique/brick.gif", 255, 255, 255));
+						imageMurIndestructible, 255, 255, 255), largeur, hauteur);
 			}
 		}
 
@@ -82,34 +90,34 @@ public class Plateau extends Ucigame {
 
 		
 		grilleJeu[1][2] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255)); 
+				imageChemin, 255, 255, 255), 2, 1); 
 		grilleJeu[2][1] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));
+				imageChemin, 255, 255, 255), 1, 2);
 		grilleJeu[1][1] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));
+				imageChemin, 255, 255, 255), 1, 1);
 
 		
 
 		grilleJeu[11][13] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));/* # */
+				imageChemin, 255, 255, 255), 13, 11);/* # */
 		grilleJeu[11][12] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));/* ## */
+				imageChemin, 255, 255, 255), 11, 12);/* ## */
 		grilleJeu[10][13] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));
+				imageChemin, 255, 255, 255), 13, 10);
 
 		grilleJeu[1][13] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));/* ## */
+				imageChemin, 255, 255, 255), 13, 1);/* ## */
 		grilleJeu[1][12] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));/* # */
+				imageChemin, 255, 255, 255), 12, 1);/* # */
 		grilleJeu[2][13] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));
+				imageChemin, 255, 255, 255), 13, 2);
 
 		grilleJeu[11][1] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));/* # */
+				imageChemin, 255, 255, 255), 1, 11);/* # */
 		grilleJeu[11][2] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));/* ## */
+				imageChemin, 255, 255, 255), 2, 11);/* ## */
 		grilleJeu[10][1] = new Chemin(getImage(
-				"../images/bloc/pave/karodark.gif", 255, 255, 255));
+				imageChemin, 255, 255, 255), 1, 10);
 
 	}
 
@@ -117,8 +125,8 @@ public class Plateau extends Ucigame {
 		/* AJOUT TEST */
 		// génération d'un plateau aléatoire
 		fondSonore.loop();
-		chargerSauvegarde();
-		//genererTerrain();
+		//chargerSauvegarde();
+		genererTerrain();
 		genererJoueurs();
 
 
@@ -143,7 +151,7 @@ public class Plateau extends Ucigame {
 	}
 
 	private void genererJoueurs() {
-		Image bomber = getImage("../images/joueur/Bomberblanc2.gif", 255, 255, 255);
+		Image bomber = getImage(imageBomber, 255, 255, 255);
 		joueur1 = new Joueur(Direction.S, 1, 1 ,1 , bomber);
 		joueur1.addFrames(bomber, 
 				175,182,        //Bas1
@@ -184,14 +192,14 @@ public class Plateau extends Ucigame {
 				for(int hauteur = 0 ; hauteur < 13 ; hauteur++){
 					if(boutons[hauteur][largeur].type.compareTo("mur")==0){
 						grilleJeu[hauteur][largeur] = new Mur_Indestructible(getImage(
-								"../images/bloc/brique/brick.gif", 255, 255, 255));
+								imageMurIndestructible, 255, 255, 255), largeur, hauteur);
 					}else if (boutons[hauteur][largeur].type.compareTo("chemin")==0){
 						grilleJeu[hauteur][largeur] = new Chemin(getImage(
-								"../images/bloc/pave/karodark.gif", 255, 255, 255));
+								imageChemin, 255, 255, 255), largeur, hauteur);
 					}else if (boutons[hauteur][largeur].type.compareTo("caisse")==0){
 						grilleJeu[hauteur][largeur] = new Mur_Destructible(
-								getImage("../images/bloc/pave/cityfree.gif", 255,
-										255, 255));
+								getImage(imageMurDestructible, 255,
+										255, 255), largeur, hauteur);
 					}
 				}	
 			}
@@ -212,7 +220,7 @@ public class Plateau extends Ucigame {
 				}				
 			}
 		}
-		
+		/*
 		for(int i=0; i<flammes.size(); i++){
 		 	Flamme f = flammes.get(i);
 			if(!f.isBlown()){
@@ -224,7 +232,7 @@ public class Plateau extends Ucigame {
 		 		f.hide();
 		 		flammes.remove(f);
 		 	}
-		}
+		}*/
 		
 		for(int i=0; i<bombes.size(); i++){
 			Bombe b = bombes.get(i);
@@ -268,7 +276,7 @@ public class Plateau extends Ucigame {
              joueur1.play("Droite");
          }
          if(keyboard.isDown(keyboard.SPACE)){
-         	bombes.add(new Bombe(joueur1.getHauteur()/48,joueur1.getLargeur()/64,5,getImage("../images/bombe/bombe0.gif"),this));
+         	bombes.add(new Bombe(joueur1.getHauteur(),joueur1.getLargeur(),5,getImage(imageBombe),this));
          }
 	}
 	
@@ -280,7 +288,8 @@ public class Plateau extends Ucigame {
 	public void createFlamme(int x, int y, int taille, Direction d, long dateFin){
 		if(x>0 && y>0 && x<grilleJeu.length && y<grilleJeu[0].length){
 			if(grilleJeu[y][x].est_destructible()){
-				flammes.add(new Flamme(x, y, getImage("../images/flamme/0_zero.gif"), taille, this, d, dateFin));	
+				//grilleJeu[y][x] = new Chemin(getImage(imageChemin), x, y);
+				flammes.add(new Flamme(x, y, getImage(imageFlamme), taille, this, d, dateFin));	
 			}
 		}
 	}
