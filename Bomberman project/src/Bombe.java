@@ -8,6 +8,7 @@ public class Bombe extends Case {
 	private Plateau plateau;
 	private long dateExplosion;
 	private boolean isBurst;
+	private static final long latenceExplosion = 5000;
 	
 	public Bombe(int largeur, int hauteur, int tailleFlamme, Image i,Plateau p){
 		super(i, largeur, hauteur);
@@ -15,7 +16,7 @@ public class Bombe extends Case {
 		this.hauteur = hauteur;
 		this.tailleFlamme = tailleFlamme;
 		this.plateau = p;
-		dateExplosion = System.currentTimeMillis()+(long)5000;
+		dateExplosion = System.currentTimeMillis()+latenceExplosion;
 		isBurst = false;
 	}
 	
