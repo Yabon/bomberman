@@ -4,9 +4,9 @@ import ucigame.Sprite;
 
 public  abstract class Case extends Sprite{
 	
-	public Case(Image i, int x, int y) {
+	public Case(Image i, int largeur, int hauteur) {
 		super(i);
-		this.position(y * 64, x * 48);
+		this.position(hauteur * 64, largeur * 48);
 	}
 
 	abstract boolean est_destructible();

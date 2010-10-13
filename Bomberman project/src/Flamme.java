@@ -9,8 +9,8 @@ public class Flamme extends Case{
 	private boolean isSpread;
 	public final static long duree = 500;
 	
-	public Flamme(int x, int y, Image i, int t, Plateau p, Direction d, long dateFin) {
-		super(i, x, y);
+	public Flamme(int largeur, int hauteur, Image i, int t, Plateau p, Direction d, long dateFin) {
+		super(i, largeur, hauteur);
 		tailleRestante = t;
 		this.plateau = p;
 		direction = d;
@@ -22,16 +22,16 @@ public class Flamme extends Case{
 		if(direction != null && tailleRestante > 0){
 			switch(direction){
 			case N :
-				plateau.createFlamme(this.yPixel()/48, (this.xPixel()/64)-1, tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.getHauteur(), this.getLargeur()-1, tailleRestante-1, direction, dateFin);
 				break;
 			case S :
-				plateau.createFlamme(this.yPixel()/48, (this.xPixel()/64)+1, tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.getHauteur(), this.getLargeur()+1, tailleRestante-1, direction, dateFin);
 				break;
 			case E :
-				plateau.createFlamme((this.yPixel()/48)+1, (this.xPixel()/64), tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.getHauteur()+1, (this.getLargeur()), tailleRestante-1, direction, dateFin);
 				break;
 			case O :
-				plateau.createFlamme((this.yPixel()/48)-1, (this.xPixel()/64), tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.getHauteur()-1, (this.getLargeur()), tailleRestante-1, direction, dateFin);
 				break;
 			}
 		}
@@ -52,5 +52,21 @@ public class Flamme extends Case{
 
 	public boolean isSpread(){
 		return isSpread;
+	}
+	
+	public int getHauteur() {
+		return (this.yPixel())/48;
+	}
+
+	public int getLargeur() {
+		return (this.xPixel())/64;
+	}
+	
+	public Direction getDirection(){
+		return direction;
+	}
+	
+	public int getTailleRestante(){
+		return tailleRestante;
 	}
 }

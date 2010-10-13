@@ -19,7 +19,13 @@ public class Plateau extends Ucigame {
 	private String imageMurIndestructible = "../images/bloc/brique/brick.gif";
 	private String imageBomber = "../images/joueur/Bomberblanc2.gif";
 	private String imageBombe = "../images/bombe/bombe0.gif";
-	private String imageFlamme = "../images/flamme/0_zero.gif";
+	private String imageFlamme1V = "../images/flamme/12_vertic.gif";
+	private String imageFlamme1H = "../images/flamme/3_horiz.gif";
+	private String imageFlamme0N = "../images/flamme/8_bouthaut.gif";
+	private String imageFlamme0S = "../images/flamme/4_boutbas.gif";
+	private String imageFlamme0E = "../images/flamme/1_boutdroite.gif";
+	private String imageFlamme0O = "../images/flamme/2_boutgauche.gif";
+	private String imageFlamme00 = "../images/flamme/15_croix.gif";
 
 	private Sound fondSonore = getSound("../sound/Hand in Hand.mp3");
 	private Sound explodeSound = getSound("../sound/explosion.mp3");
@@ -120,7 +126,7 @@ public class Plateau extends Ucigame {
 		/* AJOUT TEST */
 		// génération d'un plateau aléatoire
 		fondSonore.loop();
-		//chargerSauvegarde();
+		// chargerSauvegarde();
 		genererTerrain();
 		genererJoueurs();
 
@@ -209,11 +215,11 @@ public class Plateau extends Ucigame {
 	public void draw() {
 		canvas.clear();
 
-		for (int i = 0; i < grilleJeu.length; i++) {
-			for (int j = 0; j < grilleJeu[0].length; j++) {
-				grilleJeu[i][j].draw();
-				if (!(grilleJeu[i][j] instanceof Chemin)) {
-					joueur1.stopIfCollidesWith(grilleJeu[i][j]);
+		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
+			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
+				grilleJeu[hauteur][largeur].draw();
+				if (!(grilleJeu[hauteur][largeur] instanceof Chemin)) {
+					joueur1.stopIfCollidesWith(grilleJeu[hauteur][largeur]);
 				}
 			}
 		}
@@ -222,7 +228,9 @@ public class Plateau extends Ucigame {
 			Flamme f = flammes.get(i);
 			if (!f.isBlown()) {
 				f.draw();
-				if ((!f.isSpread()) && grilleJeu[f.xPixel()/64][f.yPixel()/48].est_traversable()) {
+				if ((!f.isSpread())
+						&& grilleJeu[f.getHauteur()][f.getLargeur()]
+								.est_traversable()) {
 					f.spread();
 				}
 			} else {
@@ -269,7 +277,8 @@ public class Plateau extends Ucigame {
 			joueur1.play("Droite");
 		}
 		if (keyboard.isDown(keyboard.SPACE)) {
-			Bombe temp = new Bombe(joueur1.getHauteur(), joueur1.getLargeur(), 2, getImage(imageBombe), this);
+			Bombe temp = new Bombe(joueur1.getHauteur(), joueur1.getLargeur(),
+					2, getImage(imageBombe), this);
 			if (bombes.size() == 0) {
 				bombes.add(temp);
 			} else {
@@ -287,12 +296,59 @@ public class Plateau extends Ucigame {
 		mouvement();
 	}
 
-	public void createFlamme(int x, int y, int taille, Direction d, long dateFin) {
-		if (x > 0 && y > 0 && x < grilleJeu.length && y < grilleJeu[0].length) {
-			if (grilleJeu[x][y].est_destructible()) {
-				 grilleJeu[x][y] = new Chemin(getImage(imageChemin), x, y);
-				flammes.add(new Flamme(x, y, getImage(imageFlamme), taille,
-						this, d, dateFin));
+	public void createFlamme(int hauteur, int largeur, int taille, Direction d, long dateFin) {
+		if (hauteur > 0 && largeur > 0 && hauteur < grilleJeu.length && largeur < grilleJeu[0].length) {
+			if (grilleJeu[hauteur][largeur].est_destructible()) {
+				grilleJeu[hauteur][largeur] = new Chemin(getImage(imageChemin), hauteur, largeur);
+				if(taille==0){
+					switch(d){
+					case N :
+						flammes.add(new Flamme(hauteur, largeur, getImage(imageFlamme0N),
+								taille, this, d, dateFin));
+						break;
+					case S :
+						flammes.add(new Flamme(hauteur, largeur, getImage(imageFlamme0S),
+								taille, this, d, dateFin));
+						break;
+					case E :
+						flammes.add(new Flamme(hauteur, largeur, getImage(imageFlamme0E),
+								taille, this, d, dateFin));
+						break;
+					case O :
+						flammes.add(new Flamme(hauteur, largeur, getImage(imageFlamme0O),
+								taille, this, d, dateFin));
+						break;
+					}
+				} else {
+					if (d != null) {
+						switch (d) {
+						case N:
+							flammes.add(new Flamme(hauteur, largeur,
+									getImage(imageFlamme1V), taille, this, d,
+									dateFin));
+							break;
+						case S:
+							flammes.add(new Flamme(hauteur, largeur,
+									getImage(imageFlamme1V), taille, this, d,
+									dateFin));
+							break;
+						case E:
+							flammes.add(new Flamme(hauteur, largeur,
+									getImage(imageFlamme1H), taille, this, d,
+									dateFin));
+							break;
+						case O:
+							flammes.add(new Flamme(hauteur, largeur,
+									getImage(imageFlamme1H), taille, this, d,
+									dateFin));
+							break;
+						}
+					} else {
+						flammes.add(new Flamme(hauteur, largeur,
+								getImage(imageFlamme00), taille, this, d,
+								dateFin));
+					}
+				}
 			}
 		}
 	}
