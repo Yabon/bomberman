@@ -19,8 +19,8 @@ public class Plateau extends Ucigame {
 	private String imageMurIndestructible = "../images/bloc/brique/brick.gif";
 	private String imageBomber = "../images/joueur/Bomberblanc2.gif";
 	private String imageBombe = "../images/bombe/bombe0.gif";
-	private String imageFlamme1V = "../images/flamme/12_vertic.gif";
-	private String imageFlamme1H = "../images/flamme/3_horiz.gif";
+	private String imageFlamme1H = "../images/flamme/12_vertic.gif";
+	private String imageFlamme1V = "../images/flamme/3_horiz.gif";
 	private String imageFlamme0N = "../images/flamme/8_bouthaut.gif";
 	private String imageFlamme0S = "../images/flamme/4_boutbas.gif";
 	private String imageFlamme0E = "../images/flamme/1_boutdroite.gif";

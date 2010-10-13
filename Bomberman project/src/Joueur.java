@@ -3,8 +3,8 @@ import ucigame.Sprite;
 
 public class Joueur extends Sprite {
 
-	Direction dir;
-	int numero;
+	private Direction dir;
+	private int numero;
 
 	public Joueur(Direction dir, int numero, int hauteur, int largeur, Image i) {
 		super(i, 28, 44);
@@ -14,11 +14,11 @@ public class Joueur extends Sprite {
 	}
 
 	public int getHauteur() {
-		return this.yPixel()/48;
+		return (this.yPixel()+22)/48;
 	}
 
 	public int getLargeur() {
-		return this.xPixel()/64;
+		return (this.xPixel()+14)/64;
 	}
 
 }

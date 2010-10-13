@@ -1,1 +1,1 @@
-Il va falloir retailler et redimentioner les images pour eviter des bugs de collision.
+Détail du bug au niveau des flammes : la direction contenue dans chaque flamme est fausse. Il faut trouver d'où ça vient.

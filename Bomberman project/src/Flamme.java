@@ -9,33 +9,33 @@ public class Flamme extends Case{
 	private boolean isSpread;
 	public final static long duree = 500;
 	
-	public Flamme(int largeur, int hauteur, Image i, int t, Plateau p, Direction d, long dateFin) {
+	public Flamme(int largeur, int hauteur, Image i, int tailleRestante, Plateau plateau, Direction direction, long dateFin) {
 		super(i, largeur, hauteur);
-		tailleRestante = t;
-		this.plateau = p;
-		direction = d;
+		this.tailleRestante = tailleRestante;
+		this.plateau = plateau;
+		this.direction = direction;
 		this.dateFin = dateFin;
-		isSpread = false;
+		this.isSpread = false;
 	}
 	
 	public void spread(){
 		if(direction != null && tailleRestante > 0){
 			switch(direction){
 			case N :
-				plateau.createFlamme(this.getHauteur(), this.getLargeur()-1, tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.getHauteur(), this.getLargeur()-1, this.tailleRestante-1, this.direction, this.dateFin);
 				break;
 			case S :
-				plateau.createFlamme(this.getHauteur(), this.getLargeur()+1, tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.getHauteur(), this.getLargeur()+1, this.tailleRestante-1, this.direction, this.dateFin);
 				break;
 			case E :
-				plateau.createFlamme(this.getHauteur()+1, (this.getLargeur()), tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.getHauteur()+1, (this.getLargeur()), this.tailleRestante-1, this.direction, this.dateFin);
 				break;
 			case O :
-				plateau.createFlamme(this.getHauteur()-1, (this.getLargeur()), tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.getHauteur()-1, (this.getLargeur()), this.tailleRestante-1, this.direction, this.dateFin);
 				break;
 			}
 		}
-		isSpread = true;
+		this.isSpread = true;
 	}
 
 	public boolean est_destructible() {

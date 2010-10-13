@@ -10,14 +10,14 @@ public class Bombe extends Case {
 	private boolean isBurst;
 	private static final long latenceExplosion = 5000;
 	
-	public Bombe(int largeur, int hauteur, int tailleFlamme, Image i,Plateau p){
-		super(i, largeur, hauteur);
+	public Bombe(int largeur, int hauteur, int tailleFlamme, Image image,Plateau plateau){
+		super(image, largeur, hauteur);
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		this.tailleFlamme = tailleFlamme;
-		this.plateau = p;
-		dateExplosion = System.currentTimeMillis()+latenceExplosion;
-		isBurst = false;
+		this.plateau = plateau;
+		this.dateExplosion = System.currentTimeMillis()+latenceExplosion;
+		this.isBurst = false;
 	}
 	
 	public boolean est_traversable() {
@@ -29,12 +29,12 @@ public class Bombe extends Case {
 	}
 	
 	public void burst(){
-		long d = dateExplosion+Flamme.duree;
-		plateau.createFlamme(this.largeur+1, this.hauteur, this.tailleFlamme, Direction.E, d);
-		plateau.createFlamme(this.largeur-1, this.hauteur, this.tailleFlamme, Direction.O, d);
-		plateau.createFlamme(this.largeur, this.hauteur+1, this.tailleFlamme, Direction.S, d);
-		plateau.createFlamme(this.largeur, this.hauteur-1, this.tailleFlamme, Direction.N, d);
-		plateau.createFlamme(this.largeur, this.hauteur, 1, null, d);
+		long dateFinFlamme = dateExplosion+Flamme.duree;
+		plateau.createFlamme(this.largeur+1, this.hauteur, this.tailleFlamme, Direction.E, dateFinFlamme);
+		plateau.createFlamme(this.largeur-1, this.hauteur, this.tailleFlamme, Direction.O, dateFinFlamme);
+		plateau.createFlamme(this.largeur, this.hauteur+1, this.tailleFlamme, Direction.S, dateFinFlamme);
+		plateau.createFlamme(this.largeur, this.hauteur-1, this.tailleFlamme, Direction.N, dateFinFlamme);
+		plateau.createFlamme(this.largeur, this.hauteur, 1, null, dateFinFlamme);
 		isBurst = true;
 	}
 	
