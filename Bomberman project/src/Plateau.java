@@ -20,15 +20,15 @@ public class Plateau extends Ucigame {
 	private String imageBomber = "../images/joueur/Bomberblanc2.gif";
 	private String imageBombe = "../images/bombe/bombe0.gif";
 	private String imageFlamme = "../images/flamme/0_zero.gif";
-	
+
 	private Sound fondSonore = getSound("../sound/Hand in Hand.mp3");
 	private Sound explodeSound = getSound("../sound/explosion.mp3");
 	private Sound blowSound = getSound("../sound/souffleFlammes.mp3");
-	
+
 	private Case[][] grilleJeu;
 	private List<Bombe> bombes;
 	private List<Flamme> flammes;
-	public int ratio = 0;// Entre 0 et 100 represente le pourcentage de murs
+	public int ratio = 100;// Entre 0 et 100 represente le pourcentage de murs
 	// destructibles
 	private Joueur joueur1;
 
@@ -59,8 +59,8 @@ public class Plateau extends Ucigame {
 							imageChemin, 255, 255, 255), largeur, hauteur);
 				} else {
 					grilleJeu[hauteur][largeur] = new Mur_Destructible(
-							getImage(imageMurDestructible, 255,
-									255, 255), largeur, hauteur);
+							getImage(imageMurDestructible, 255, 255, 255),
+							largeur, hauteur);
 				}
 			}
 		}
@@ -82,42 +82,37 @@ public class Plateau extends Ucigame {
 		for (int hauteur = 2; hauteur < grilleJeu.length - 1; hauteur += 2) {
 			for (int largeur = 2; largeur < grilleJeu[0].length - 1; largeur += 2) {
 				grilleJeu[hauteur][largeur] = new Mur_Indestructible(getImage(
-						imageMurIndestructible, 255, 255, 255), largeur, hauteur);
+						imageMurIndestructible, 255, 255, 255), largeur,
+						hauteur);
 			}
 		}
 
 		// Generation du depart des joueurs
 
-		
-		grilleJeu[1][2] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 2, 1); 
-		grilleJeu[2][1] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 1, 2);
-		grilleJeu[1][1] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 1, 1);
+		grilleJeu[1][2] = new Chemin(getImage(imageChemin, 255, 255, 255), 2, 1);
+		grilleJeu[2][1] = new Chemin(getImage(imageChemin, 255, 255, 255), 1, 2);
+		grilleJeu[1][1] = new Chemin(getImage(imageChemin, 255, 255, 255), 1, 1);
 
-		
+		grilleJeu[11][13] = new Chemin(getImage(imageChemin, 255, 255, 255),
+				13, 11);/* # */
+		grilleJeu[11][12] = new Chemin(getImage(imageChemin, 255, 255, 255),
+				11, 12);/* ## */
+		grilleJeu[10][13] = new Chemin(getImage(imageChemin, 255, 255, 255),
+				13, 10);
 
-		grilleJeu[11][13] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 13, 11);/* # */
-		grilleJeu[11][12] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 11, 12);/* ## */
-		grilleJeu[10][13] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 13, 10);
+		grilleJeu[1][13] = new Chemin(getImage(imageChemin, 255, 255, 255), 13,
+				1);/* ## */
+		grilleJeu[1][12] = new Chemin(getImage(imageChemin, 255, 255, 255), 12,
+				1);/* # */
+		grilleJeu[2][13] = new Chemin(getImage(imageChemin, 255, 255, 255), 13,
+				2);
 
-		grilleJeu[1][13] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 13, 1);/* ## */
-		grilleJeu[1][12] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 12, 1);/* # */
-		grilleJeu[2][13] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 13, 2);
-
-		grilleJeu[11][1] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 1, 11);/* # */
-		grilleJeu[11][2] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 2, 11);/* ## */
-		grilleJeu[10][1] = new Chemin(getImage(
-				imageChemin, 255, 255, 255), 1, 10);
+		grilleJeu[11][1] = new Chemin(getImage(imageChemin, 255, 255, 255), 1,
+				11);/* # */
+		grilleJeu[11][2] = new Chemin(getImage(imageChemin, 255, 255, 255), 2,
+				11);/* ## */
+		grilleJeu[10][1] = new Chemin(getImage(imageChemin, 255, 255, 255), 1,
+				10);
 
 	}
 
@@ -129,8 +124,6 @@ public class Plateau extends Ucigame {
 		genererTerrain();
 		genererJoueurs();
 
-
-		
 		bombes = new LinkedList<Bombe>();
 		/* FIN AJOUT TEST */
 
@@ -142,7 +135,8 @@ public class Plateau extends Ucigame {
 
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
-					grilleJeu[hauteur][largeur].position(largeur * 64, hauteur * 48);
+				grilleJeu[hauteur][largeur]
+						.position(largeur * 64, hauteur * 48);
 			}
 		}
 
@@ -152,144 +146,153 @@ public class Plateau extends Ucigame {
 
 	private void genererJoueurs() {
 		Image bomber = getImage(imageBomber, 255, 255, 255);
-		joueur1 = new Joueur(Direction.S, 1, 1 ,1 , bomber);
-		joueur1.addFrames(bomber, 
-				175,182,        //Bas1
-				262,182,		//Bas2
-				350,182,		//Bas3
-				0,182,			//Bas4
-				87,182,			//Bas5
-				175,94,         //Droite6
-				262,94,			//Droite7
-				350,94,			//Droite8
-				0,94,			//Droite9
-				87,94,			//Droite10		
-				175,269,        //Haut11
-				262,269,		//Haut12
-				350,269,		//Haut13
-				0,269,			//Haut14
-				87,269,			//Haut15
-				175,349,        //Gauche16
-				262,349,		//Gauche17
-				350,349,		//Gauche18
-				0,349,			//Gauche19
-				87,349);		//Gauche20	
-		joueur1.defineSequence("Bas", 2,3,2,1,5,4,5,1);
-		joueur1.defineSequence("Droite",7,8,7,6,10,9,10,6);
-		joueur1.defineSequence("Haut", 12,13,12,11,15,14,15,11);
-		joueur1.defineSequence("Gauche", 17,18,17,16,20,19,20,16);
+		joueur1 = new Joueur(Direction.S, 1, 1, 1, bomber);
+		joueur1.addFrames(bomber, 175, 182, // Bas1
+				262, 182, // Bas2
+				350, 182, // Bas3
+				0, 182, // Bas4
+				87, 182, // Bas5
+				175, 94, // Droite6
+				262, 94, // Droite7
+				350, 94, // Droite8
+				0, 94, // Droite9
+				87, 94, // Droite10
+				175, 269, // Haut11
+				262, 269, // Haut12
+				350, 269, // Haut13
+				0, 269, // Haut14
+				87, 269, // Haut15
+				175, 349, // Gauche16
+				262, 349, // Gauche17
+				350, 349, // Gauche18
+				0, 349, // Gauche19
+				87, 349); // Gauche20
+		joueur1.defineSequence("Bas", 2, 3, 2, 1, 5, 4, 5, 1);
+		joueur1.defineSequence("Droite", 7, 8, 7, 6, 10, 9, 10, 6);
+		joueur1.defineSequence("Haut", 12, 13, 12, 11, 15, 14, 15, 11);
+		joueur1.defineSequence("Gauche", 17, 18, 17, 16, 20, 19, 20, 16);
 		joueur1.framerate(15);
 	}
 
-	public void chargerSauvegarde(){
+	public void chargerSauvegarde() {
 		FileInputStream file;
 		try {
 			file = new FileInputStream("../sauvegarde.save");
 			ObjectInputStream output = new ObjectInputStream(file);
-			BoutonBomberman[][] boutons = (BoutonBomberman[][]) output.readObject();
-			
-			for(int largeur = 0 ; largeur < 15 ; largeur++){
-				for(int hauteur = 0 ; hauteur < 13 ; hauteur++){
-					if(boutons[hauteur][largeur].type.compareTo("mur")==0){
-						grilleJeu[hauteur][largeur] = new Mur_Indestructible(getImage(
-								imageMurIndestructible, 255, 255, 255), largeur, hauteur);
-					}else if (boutons[hauteur][largeur].type.compareTo("chemin")==0){
+			BoutonBomberman[][] boutons = (BoutonBomberman[][]) output
+					.readObject();
+
+			for (int largeur = 0; largeur < 15; largeur++) {
+				for (int hauteur = 0; hauteur < 13; hauteur++) {
+					if (boutons[hauteur][largeur].type.compareTo("mur") == 0) {
+						grilleJeu[hauteur][largeur] = new Mur_Indestructible(
+								getImage(imageMurIndestructible, 255, 255, 255),
+								largeur, hauteur);
+					} else if (boutons[hauteur][largeur].type
+							.compareTo("chemin") == 0) {
 						grilleJeu[hauteur][largeur] = new Chemin(getImage(
 								imageChemin, 255, 255, 255), largeur, hauteur);
-					}else if (boutons[hauteur][largeur].type.compareTo("caisse")==0){
+					} else if (boutons[hauteur][largeur].type
+							.compareTo("caisse") == 0) {
 						grilleJeu[hauteur][largeur] = new Mur_Destructible(
-								getImage(imageMurDestructible, 255,
-										255, 255), largeur, hauteur);
+								getImage(imageMurDestructible, 255, 255, 255),
+								largeur, hauteur);
 					}
-				}	
+				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	
+		}
 	}
-	
+
 	public void draw() {
 		canvas.clear();
-		
-		for(int i=0; i<grilleJeu.length; i++){
-			for(int j=0; j<grilleJeu[0].length; j++){
+
+		for (int i = 0; i < grilleJeu.length; i++) {
+			for (int j = 0; j < grilleJeu[0].length; j++) {
 				grilleJeu[i][j].draw();
-				if (!(grilleJeu[i][j] instanceof Chemin)){
+				if (!(grilleJeu[i][j] instanceof Chemin)) {
 					joueur1.stopIfCollidesWith(grilleJeu[i][j]);
-				}				
+				}
 			}
 		}
-		/*
-		for(int i=0; i<flammes.size(); i++){
-		 	Flamme f = flammes.get(i);
-			if(!f.isBlown()){
+
+		for (int i = 0; i < flammes.size(); i++) {
+			Flamme f = flammes.get(i);
+			if (!f.isBlown()) {
 				f.draw();
-				if(!f.isSpread()){
-		 			f.spread();
-		 		}
-		 	}else{
-		 		f.hide();
-		 		flammes.remove(f);
-		 	}
-		}*/
-		
-		for(int i=0; i<bombes.size(); i++){
+				if ((!f.isSpread()) && grilleJeu[f.xPixel()/64][f.yPixel()/48].est_traversable()) {
+					f.spread();
+				}
+			} else {
+				f.hide();
+				flammes.remove(f);
+			}
+		}
+
+		for (int i = 0; i < bombes.size(); i++) {
 			Bombe b = bombes.get(i);
-			if(b.isBurst()){
+			if (b.isBurst()) {
 				b.hide();
 				bombes.remove(b);
-			}else{
+			} else {
 				b.draw();
 				joueur1.stopIfCollidesWith(b);
-				if(b.readyToExplode()){
+				if (b.readyToExplode()) {
 					b.burst();
 					explodeSound.play();
 					blowSound.play();
 				}
 			}
-		}	
-		
+		}
+
 		joueur1.draw();
 	}
-	
-	public void mouvement(){
-		 if (keyboard.isDown(keyboard.UP, keyboard.Z))
-         {
-             joueur1.nextY(joueur1.y() - 4);
-             joueur1.play("Haut");
-           
-         }
-         if (keyboard.isDown(keyboard.DOWN, keyboard.S))
-         {
-             joueur1.nextY(joueur1.y() + 4);
-             joueur1.play("Bas");
-         }
-         if (keyboard.isDown(keyboard.LEFT, keyboard.Q))
-         {
-             joueur1.nextX(joueur1.x() - 4);
-             joueur1.play("Gauche");
-         }
-         if (keyboard.isDown(keyboard.RIGHT, keyboard.D))
-         {
-             joueur1.nextX(joueur1.x() + 4);
-             joueur1.play("Droite");
-         }
-         if(keyboard.isDown(keyboard.SPACE)){
-         	bombes.add(new Bombe(joueur1.getHauteur(),joueur1.getLargeur(),5,getImage(imageBombe),this));
-         }
-	}
-	
-	public void onKeyPress()
-    {
-           mouvement();
-    }
 
-	public void createFlamme(int x, int y, int taille, Direction d, long dateFin){
-		if(x>0 && y>0 && x<grilleJeu.length && y<grilleJeu[0].length){
-			if(grilleJeu[y][x].est_destructible()){
-				//grilleJeu[y][x] = new Chemin(getImage(imageChemin), x, y);
-				flammes.add(new Flamme(x, y, getImage(imageFlamme), taille, this, d, dateFin));	
+	public void mouvement() {
+		if (keyboard.isDown(keyboard.UP, keyboard.Z)) {
+			joueur1.nextY(joueur1.y() - 4);
+			joueur1.play("Haut");
+
+		}
+		if (keyboard.isDown(keyboard.DOWN, keyboard.S)) {
+			joueur1.nextY(joueur1.y() + 4);
+			joueur1.play("Bas");
+		}
+		if (keyboard.isDown(keyboard.LEFT, keyboard.Q)) {
+			joueur1.nextX(joueur1.x() - 4);
+			joueur1.play("Gauche");
+		}
+		if (keyboard.isDown(keyboard.RIGHT, keyboard.D)) {
+			joueur1.nextX(joueur1.x() + 4);
+			joueur1.play("Droite");
+		}
+		if (keyboard.isDown(keyboard.SPACE)) {
+			Bombe temp = new Bombe(joueur1.getHauteur(), joueur1.getLargeur(), 2, getImage(imageBombe), this);
+			if (bombes.size() == 0) {
+				bombes.add(temp);
+			} else {
+				for (Bombe b : bombes) {
+					if (!b.samePlace(temp)) {
+						bombes.add(temp);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	public void onKeyPress() {
+		mouvement();
+	}
+
+	public void createFlamme(int x, int y, int taille, Direction d, long dateFin) {
+		if (x > 0 && y > 0 && x < grilleJeu.length && y < grilleJeu[0].length) {
+			if (grilleJeu[x][y].est_destructible()) {
+				 grilleJeu[x][y] = new Chemin(getImage(imageChemin), x, y);
+				flammes.add(new Flamme(x, y, getImage(imageFlamme), taille,
+						this, d, dateFin));
 			}
 		}
 	}

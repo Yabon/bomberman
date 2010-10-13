@@ -22,16 +22,16 @@ public class Flamme extends Case{
 		if(tailleRestante > 0){
 			switch(direction){
 			case N :
-				plateau.createFlamme(this.xPixel()/48, (this.yPixel()/64)-1, tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.yPixel()/48, (this.xPixel()/64)-1, tailleRestante-1, direction, dateFin);
 				break;
 			case S :
-				plateau.createFlamme(this.xPixel()/48, (this.yPixel()/64)+1, tailleRestante-1, direction, dateFin);
+				plateau.createFlamme(this.yPixel()/48, (this.xPixel()/64)+1, tailleRestante-1, direction, dateFin);
 				break;
 			case E :
-				plateau.createFlamme((this.xPixel()/48)+1, (this.yPixel()/64), tailleRestante-1, direction, dateFin);
+				plateau.createFlamme((this.yPixel()/48)+1, (this.xPixel()/64), tailleRestante-1, direction, dateFin);
 				break;
 			case O :
-				plateau.createFlamme((this.xPixel()/48)-1, (this.yPixel()/64), tailleRestante-1, direction, dateFin);
+				plateau.createFlamme((this.yPixel()/48)-1, (this.xPixel()/64), tailleRestante-1, direction, dateFin);
 				break;
 			}
 		}

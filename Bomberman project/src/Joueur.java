@@ -18,7 +18,7 @@ public class Joueur extends Sprite {
 	}
 
 	public int getLargeur() {
-		return (this.xPixel()+32)/64;
+		return (this.xPixel()+30)/64;
 	}
 
 }
