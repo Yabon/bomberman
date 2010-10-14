@@ -18,6 +18,7 @@ public class Plateau extends Ucigame {
 	private String imageMurDestructible = "../images/bloc/pave/cityfree.gif";
 	private String imageMurIndestructible = "../images/bloc/brique/brick.gif";
 	private String imageBomber = "../images/joueur/Bomberblanc2.gif";
+	private String imageBomber2 = "../images/joueur/Bomberblanc2.gif";
 	private String imageBombe = "../images/bombe/bombe0.gif";
 	private String imageFlamme1H = "../images/flamme/12_vertic.gif";
 	private String imageFlamme1V = "../images/flamme/3_horiz.gif";
@@ -36,7 +37,7 @@ public class Plateau extends Ucigame {
 	private List<Flamme> flammes;
 	public int ratio = 100;// Entre 0 et 100 represente le pourcentage de murs
 	// destructibles
-	private Joueur joueur1;
+	private Joueur joueur1, joueur2;
 
 	public Plateau() {
 
@@ -178,6 +179,34 @@ public class Plateau extends Ucigame {
 		joueur1.defineSequence("Haut", 12, 13, 12, 11, 15, 14, 15, 11);
 		joueur1.defineSequence("Gauche", 17, 18, 17, 16, 20, 19, 20, 16);
 		joueur1.framerate(15);
+
+		Image bomber2 = getImage(imageBomber2, 255, 255, 255);
+		joueur2 = new Joueur(Direction.S, 2, 1, 14, bomber2);
+		joueur2.addFrames(bomber2, 175, 182, // Bas1
+				262, 182, // Bas2
+				350, 182, // Bas3
+				0, 182, // Bas4
+				87, 182, // Bas5
+				175, 94, // Droite6
+				262, 94, // Droite7
+				350, 94, // Droite8
+				0, 94, // Droite9
+				87, 94, // Droite10
+				175, 269, // Haut11
+				262, 269, // Haut12
+				350, 269, // Haut13
+				0, 269, // Haut14
+				87, 269, // Haut15
+				175, 349, // Gauche16
+				262, 349, // Gauche17
+				350, 349, // Gauche18
+				0, 349, // Gauche19
+				87, 349); // Gauche20
+		joueur2.defineSequence("Bas", 2, 3, 2, 1, 5, 4, 5, 1);
+		joueur2.defineSequence("Droite", 7, 8, 7, 6, 10, 9, 10, 6);
+		joueur2.defineSequence("Haut", 12, 13, 12, 11, 15, 14, 15, 11);
+		joueur2.defineSequence("Gauche", 17, 18, 17, 16, 20, 19, 20, 16);
+		joueur2.framerate(15);
 	}
 
 	public void chargerSauvegarde() {
@@ -220,6 +249,7 @@ public class Plateau extends Ucigame {
 				grilleJeu[hauteur][largeur].draw();
 				if (!(grilleJeu[hauteur][largeur] instanceof Chemin)) {
 					joueur1.stopIfCollidesWith(grilleJeu[hauteur][largeur]);
+					joueur2.stopIfCollidesWith(grilleJeu[hauteur][largeur]);
 				}
 			}
 		}
@@ -247,6 +277,7 @@ public class Plateau extends Ucigame {
 			} else {
 				b.draw();
 				joueur1.stopIfCollidesWith(b);
+				joueur2.stopIfCollidesWith(b);
 				if (b.readyToExplode()) {
 					b.burst();
 					explodeSound.play();
@@ -256,28 +287,59 @@ public class Plateau extends Ucigame {
 		}
 
 		joueur1.draw();
+		joueur2.draw();
 	}
 
 	public void mouvement() {
-		if (keyboard.isDown(keyboard.UP, keyboard.Z)) {
+		if (keyboard.isDown(keyboard.Z)) {
 			joueur1.nextY(joueur1.y() - 4);
 			joueur1.play("Haut");
 
 		}
-		if (keyboard.isDown(keyboard.DOWN, keyboard.S)) {
+		if(keyboard.isDown(keyboard.UP)){
+			joueur2.nextY(joueur2.y() - 4);
+			joueur2.play("Haut");
+		}
+		if (keyboard.isDown(keyboard.S)) {
 			joueur1.nextY(joueur1.y() + 4);
 			joueur1.play("Bas");
 		}
-		if (keyboard.isDown(keyboard.LEFT, keyboard.Q)) {
+		if (keyboard.isDown(keyboard.DOWN)) {
+			joueur2.nextY(joueur2.y() + 4);
+			joueur2.play("Bas");
+		}
+		if (keyboard.isDown(keyboard.Q)) {
 			joueur1.nextX(joueur1.x() - 4);
 			joueur1.play("Gauche");
 		}
-		if (keyboard.isDown(keyboard.RIGHT, keyboard.D)) {
+		if (keyboard.isDown(keyboard.LEFT)) {
+			joueur2.nextX(joueur2.x() - 4);
+			joueur2.play("Gauche");
+		}
+		if (keyboard.isDown(keyboard.D)) {
 			joueur1.nextX(joueur1.x() + 4);
 			joueur1.play("Droite");
 		}
+		if (keyboard.isDown(keyboard.RIGHT)) {
+			joueur2.nextX(joueur2.x() + 4);
+			joueur2.play("Droite");
+		}
 		if (keyboard.isDown(keyboard.SPACE)) {
 			Bombe temp = new Bombe(joueur1.getHauteur(), joueur1.getLargeur(),
+					2, getImage(imageBombe), this);
+			if (bombes.size() == 0) {
+				bombes.add(temp);
+			} else {
+				for (Bombe b : bombes) {
+					if (!b.samePlace(temp)) {
+						bombes.add(temp);
+						break;
+					}
+				}
+			}
+		}
+		if (keyboard.isDown(keyboard.ENTER)) {
+			Bombe temp = new Bombe(joueur2.getHauteur(), joueur2.getLargeur(),
 					2, getImage(imageBombe), this);
 			if (bombes.size() == 0) {
 				bombes.add(temp);

@@ -45,9 +45,13 @@ public class Bombe extends Case {
 	public boolean readyToExplode(){
 		return dateExplosion < System.currentTimeMillis();
 	}
-	
+
 	public boolean samePlace(Bombe b){
 		return b.largeur==this.largeur && b.hauteur==this.hauteur;
+	}
+	
+	public boolean samePlace(Flamme f){
+		return f.getLargeur()==this.largeur && f.getHauteur()==this.hauteur;
 	}
 		
 }
