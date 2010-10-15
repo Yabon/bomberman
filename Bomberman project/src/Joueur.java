@@ -14,11 +14,11 @@ public class Joueur extends Sprite {
 	}
 
 	public int getHauteur() {
-		return (this.yPixel()+22)/48;
+		return (this.yPixel()+22)/Plateau.hauteurImage;
 	}
 
 	public int getLargeur() {
-		return (this.xPixel()+14)/64;
+		return (this.xPixel()+14)/Plateau.largeurImage;
 	}
 
 }

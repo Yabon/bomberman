@@ -35,8 +35,9 @@ public class Plateau extends Ucigame {
 	private Case[][] grilleJeu;
 	private List<Bombe> bombes;
 	private List<Flamme> flammes;
-	public int ratio = 100;// Entre 0 et 100 represente le pourcentage de murs
+	public final int ratio = 100;// Entre 0 et 100 represente le pourcentage de murs
 	// destructibles
+	public static int hauteurImage, largeurImage;
 	private Joueur joueur1, joueur2;
 
 	public Plateau() {
@@ -127,6 +128,8 @@ public class Plateau extends Ucigame {
 		/* AJOUT TEST */
 		// génération d'un plateau aléatoire
 		fondSonore.loop();
+		hauteurImage = getImage(imageChemin, 255, 255, 255).height(); 
+		largeurImage = getImage(imageChemin, 255, 255, 255).width();
 		// chargerSauvegarde();
 		genererTerrain();
 		genererJoueurs();
@@ -134,8 +137,8 @@ public class Plateau extends Ucigame {
 		bombes = new LinkedList<Bombe>();
 		/* FIN AJOUT TEST */
 
-		resize(15 * 64, 13 * 48);
-		window.size(15 * 64, 13 * 48);
+		resize(15 * largeurImage, 13 * hauteurImage);
+		window.size(15 * largeurImage, 13 * hauteurImage);
 		window.title("IBomberMan");
 		window.showFPS();
 		canvas.background(255, 255, 255);
@@ -143,7 +146,7 @@ public class Plateau extends Ucigame {
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
 				grilleJeu[hauteur][largeur]
-						.position(largeur * 64, hauteur * 48);
+						.position(largeur * largeurImage, hauteur * hauteurImage);
 			}
 		}
 
@@ -258,9 +261,7 @@ public class Plateau extends Ucigame {
 			Flamme f = flammes.get(i);
 			if (!f.isBlown()) {
 				f.draw();
-				if ((!f.isSpread())
-						&& grilleJeu[f.getHauteur()][f.getLargeur()]
-								.est_traversable()) {
+				if ((!f.isSpread())&& grilleJeu[f.getHauteur()][f.getLargeur()].est_traversable()) {
 					f.spread();
 				}
 			} else {

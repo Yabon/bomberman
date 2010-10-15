@@ -55,11 +55,11 @@ public class Flamme extends Case{
 	}
 	
 	public int getHauteur() {
-		return this.yPixel()/48;
+		return this.yPixel()/Plateau.hauteurImage;
 	}
 
 	public int getLargeur() {
-		return this.xPixel()/64;
+		return this.xPixel()/Plateau.largeurImage;
 	}
 	
 	public Direction getDirection(){
