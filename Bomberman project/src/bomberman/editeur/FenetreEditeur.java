@@ -35,9 +35,11 @@ public class FenetreEditeur {
 				bouton = new BoutonBomberman("mur");
 				boutons[hauteur][largeur]=bouton;
 				boutonEditeur.add(bouton);
-				bouton.addMouseListener(new MonMouseListener(bouton));			
+				
 				if(hauteur == 0 || largeur == 0 || hauteur == 12 || largeur == 14){
 					bouton.setEnabled(false);
+				}else if(!(hauteur==1 && largeur ==1 || hauteur==1 && largeur ==13 || hauteur==11 && largeur ==1 ||hauteur==11 && largeur ==13 )){
+					bouton.addMouseListener(new MonMouseListener(bouton));			
 				}
 			}	
 		}

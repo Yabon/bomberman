@@ -18,7 +18,7 @@ public class Plateau extends Ucigame {
 	private String imageMurDestructible = "../images/bloc/pave/cityfree.gif";
 	private String imageMurIndestructible = "../images/bloc/brique/brick.gif";
 	private String imageBomber = "../images/joueur/Bomberblanc2.gif";
-	private String imageBomber2 = "../images/joueur/Bomberblanc2.gif";
+	private String imageBomber2 = "../images/joueur/Bombernoir2.gif";
 	private String imageBombe = "../images/bombe/bombe0.gif";
 	private String imageFlamme1H = "../images/flamme/12_vertic.gif";
 	private String imageFlamme1V = "../images/flamme/3_horiz.gif";
@@ -35,9 +35,8 @@ public class Plateau extends Ucigame {
 	private Case[][] grilleJeu;
 	private List<Bombe> bombes;
 	private List<Flamme> flammes;
-	public final int ratio = 100;// Entre 0 et 100 represente le pourcentage de murs
+	public int ratio = 100;// Entre 0 et 100 represente le pourcentage de murs
 	// destructibles
-	public static int hauteurImage, largeurImage;
 	private Joueur joueur1, joueur2;
 
 	public Plateau() {
@@ -128,17 +127,15 @@ public class Plateau extends Ucigame {
 		/* AJOUT TEST */
 		// génération d'un plateau aléatoire
 		fondSonore.loop();
-		hauteurImage = getImage(imageChemin, 255, 255, 255).height(); 
-		largeurImage = getImage(imageChemin, 255, 255, 255).width();
-		// chargerSauvegarde();
-		genererTerrain();
+		chargerSauvegarde();
+		//genererTerrain();
 		genererJoueurs();
 
 		bombes = new LinkedList<Bombe>();
 		/* FIN AJOUT TEST */
 
-		resize(15 * largeurImage, 13 * hauteurImage);
-		window.size(15 * largeurImage, 13 * hauteurImage);
+		resize(15 * 64, 13 * 48);
+		window.size(15 * 64, 13 * 48);
 		window.title("IBomberMan");
 		window.showFPS();
 		canvas.background(255, 255, 255);
@@ -146,7 +143,7 @@ public class Plateau extends Ucigame {
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
 				grilleJeu[hauteur][largeur]
-						.position(largeur * largeurImage, hauteur * hauteurImage);
+						.position(largeur * 64, hauteur * 48);
 			}
 		}
 
@@ -184,7 +181,7 @@ public class Plateau extends Ucigame {
 		joueur1.framerate(15);
 
 		Image bomber2 = getImage(imageBomber2, 255, 255, 255);
-		joueur2 = new Joueur(Direction.S, 2, 1, 14, bomber2);
+		joueur2 = new Joueur(Direction.S, 2, 1, 13, bomber2);
 		joueur2.addFrames(bomber2, 175, 182, // Bas1
 				262, 182, // Bas2
 				350, 182, // Bas3
@@ -261,7 +258,9 @@ public class Plateau extends Ucigame {
 			Flamme f = flammes.get(i);
 			if (!f.isBlown()) {
 				f.draw();
-				if ((!f.isSpread())&& grilleJeu[f.getHauteur()][f.getLargeur()].est_traversable()) {
+				if ((!f.isSpread())
+						&& grilleJeu[f.getHauteur()][f.getLargeur()]
+								.est_traversable()) {
 					f.spread();
 				}
 			} else {
