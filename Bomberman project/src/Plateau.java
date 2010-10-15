@@ -35,6 +35,7 @@ public class Plateau extends Ucigame {
 	private Case[][] grilleJeu;
 	private List<Bombe> bombes;
 	private List<Flamme> flammes;
+	public static int hauteurImage, largeurImage;
 	public int ratio = 100;// Entre 0 et 100 represente le pourcentage de murs
 	// destructibles
 	private Joueur joueur1, joueur2;
@@ -127,6 +128,10 @@ public class Plateau extends Ucigame {
 		/* AJOUT TEST */
 		// génération d'un plateau aléatoire
 		fondSonore.loop();
+		
+		hauteurImage = getImage(imageChemin).height();
+		largeurImage = getImage(imageChemin).width();
+		
 		chargerSauvegarde();
 		//genererTerrain();
 		genererJoueurs();
@@ -361,7 +366,10 @@ public class Plateau extends Ucigame {
 	public void createFlamme(int hauteur, int largeur, int taille, Direction d, long dateFin) {
 		if (hauteur > 0 && largeur > 0 && hauteur < grilleJeu.length && largeur < grilleJeu[0].length) {
 			if (grilleJeu[hauteur][largeur].est_destructible()) {
-				grilleJeu[hauteur][largeur] = new Chemin(getImage(imageChemin), hauteur, largeur);
+				if(!(grilleJeu[hauteur][largeur] instanceof Chemin)){
+					grilleJeu[hauteur][largeur] = new Chemin(getImage(imageChemin), hauteur, largeur);
+					taille = 0;
+				}
 				if(taille==0){
 					switch(d){
 					case N :
