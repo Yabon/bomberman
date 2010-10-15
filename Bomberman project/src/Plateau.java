@@ -158,7 +158,7 @@ public class Plateau extends Ucigame {
 
 	private void genererJoueurs() {
 		Image bomber = getImage(imageBomber, 255, 255, 255);
-		joueur1 = new Joueur(Direction.S, 1, 1, 1, bomber);
+		joueur1 = new Joueur(1, 1, 1, bomber);
 		joueur1.addFrames(bomber, 175, 182, // Bas1
 				262, 182, // Bas2
 				350, 182, // Bas3
@@ -183,10 +183,11 @@ public class Plateau extends Ucigame {
 		joueur1.defineSequence("Droite", 7, 8, 7, 6, 10, 9, 10, 6);
 		joueur1.defineSequence("Haut", 12, 13, 12, 11, 15, 14, 15, 11);
 		joueur1.defineSequence("Gauche", 17, 18, 17, 16, 20, 19, 20, 16);
+		joueur1.defineSequence("Stop", 1, 1);
 		joueur1.framerate(15);
 
 		Image bomber2 = getImage(imageBomber2, 255, 255, 255);
-		joueur2 = new Joueur(Direction.S, 2, 1, 13, bomber2);
+		joueur2 = new Joueur(2, 1, 13, bomber2);
 		joueur2.addFrames(bomber2, 175, 182, // Bas1
 				262, 182, // Bas2
 				350, 182, // Bas3
@@ -211,6 +212,7 @@ public class Plateau extends Ucigame {
 		joueur2.defineSequence("Droite", 7, 8, 7, 6, 10, 9, 10, 6);
 		joueur2.defineSequence("Haut", 12, 13, 12, 11, 15, 14, 15, 11);
 		joueur2.defineSequence("Gauche", 17, 18, 17, 16, 20, 19, 20, 16);
+		joueur2.defineSequence("Stop", 1, 1);
 		joueur2.framerate(15);
 	}
 
@@ -247,6 +249,13 @@ public class Plateau extends Ucigame {
 	}
 
 	public void draw() {
+		if(!(keyboard.isDown(keyboard.Z)) && !(keyboard.isDown(keyboard.S)) && !(keyboard.isDown(keyboard.Q)) && !(keyboard.isDown(keyboard.D))){
+			joueur1.play("Stop");
+		}
+		if(!keyboard.isDown(keyboard.UP) && !keyboard.isDown(keyboard.DOWN) && !keyboard.isDown(keyboard.LEFT) && !keyboard.isDown(keyboard.RIGHT)){
+			joueur2.play("Stop");
+		}
+		
 		canvas.clear();
 
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {

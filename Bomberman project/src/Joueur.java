@@ -3,12 +3,10 @@ import ucigame.Sprite;
 
 public class Joueur extends Sprite {
 
-	private Direction dir;
 	private int numero;
 
-	public Joueur(Direction dir, int numero, int hauteur, int largeur, Image i) {
+	public Joueur(int numero, int hauteur, int largeur, Image i) {
 		super(i, 28, 44);
-		this.dir = dir;
 		this.numero = numero;
 		this.position(largeur * 64 , hauteur*48 );
 	}
