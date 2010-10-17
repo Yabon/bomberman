@@ -46,14 +46,14 @@ public class Plateau extends Ucigame {
 
 		grilleJeu = new Case[13][15];
 		effets = new int[13][15];
-		// à implémenter : génération d'un plateau aléatoire
-		
-		// placer les joueurs a implémenter
 
-		bombes = new LinkedList<Bombe>(); // taille de la liste a l'origine
+		bombes = new ArrayList<Bombe>(1024); // taille de la liste a l'origine
 		// pour éviter la réallocation
 
 		flammes = new ArrayList<Flamme>(1024);
+
+		hauteurImage = getImage(imageChemin).height();
+		largeurImage = getImage(imageChemin).width();
 	}
 
 	public Case getCase(int posX, int posY) {
@@ -135,19 +135,13 @@ public class Plateau extends Ucigame {
 	}
 
 	public void setup() {
-		/* AJOUT TEST */
-		// génération d'un plateau aléatoire
 		fondSonore.loop();
-		
-		hauteurImage = getImage(imageChemin).height();
-		largeurImage = getImage(imageChemin).width();
 		
 		//chargerSauvegarde();
 		genererTerrain();
 		genererJoueurs();
 
 		bombes = new LinkedList<Bombe>();
-		/* FIN AJOUT TEST */
 
 		resize(15 * 64, 13 * 48);
 		window.size(15 * 64, 13 * 48);
@@ -259,6 +253,7 @@ public class Plateau extends Ucigame {
 	}
 
 	public void draw() {
+		// Arrêt des animations joueurs si inactivité du clavier
 		if(!(keyboard.isDown(keyboard.Z)) && !(keyboard.isDown(keyboard.S)) && !(keyboard.isDown(keyboard.Q)) && !(keyboard.isDown(keyboard.D))){
 			joueur1.play("Stop");
 		}
@@ -268,6 +263,7 @@ public class Plateau extends Ucigame {
 		
 		canvas.clear();
 
+		// Affichage du plateau et gestion de la collision avec les murs
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
 				grilleJeu[hauteur][largeur].draw();
@@ -278,6 +274,7 @@ public class Plateau extends Ucigame {
 			}
 		}
 
+		// affichage des flammes et gestion de leur expansion
 		for (int i = 0; i < flammes.size(); i++) {
 			Flamme f = flammes.get(i);
 			if (!f.isBlown()) {
@@ -294,6 +291,7 @@ public class Plateau extends Ucigame {
 			}
 		}
 
+		// Affichage des bombes et gestion de leur explosion
 		for (int i = 0; i < bombes.size(); i++) {
 			Bombe b = bombes.get(i);
 			if (b.isBurst()) {
@@ -311,6 +309,7 @@ public class Plateau extends Ucigame {
 			}
 		}
 
+		// Affichage des joueurs
 		joueur1.draw();
 		joueur2.draw();
 	}
