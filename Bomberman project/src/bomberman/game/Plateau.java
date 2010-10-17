@@ -1,7 +1,6 @@
 package bomberman.game;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -47,17 +46,12 @@ public class Plateau extends Ucigame {
 		grilleJeu = new Case[13][15];
 		effets = new int[13][15];
 
+		flammes = new ArrayList<Flamme>(1024);
 		bombes = new ArrayList<Bombe>(1024); // taille de la liste a l'origine
 		// pour éviter la réallocation
 
-		flammes = new ArrayList<Flamme>(1024);
-
 		hauteurImage = getImage(imageChemin).height();
 		largeurImage = getImage(imageChemin).width();
-	}
-
-	public Case getCase(int posX, int posY) {
-		return grilleJeu[posY][posX];
 	}
 
 	private void genererTerrain() {
@@ -147,6 +141,7 @@ public class Plateau extends Ucigame {
 		window.showFPS();
 		canvas.background(255, 255, 255);
 
+		// ce bout de code n'à rien a faire là
 		for (int hauteur = 0; hauteur < grilleJeu.length; hauteur++) {
 			for (int largeur = 0; largeur < grilleJeu[0].length; largeur++) {
 				grilleJeu[hauteur][largeur]
