@@ -6,7 +6,7 @@ public class Bombe extends Case {
 	private int largeur, hauteur;
 	private int tailleFlamme;
 	private Plateau plateau;
-	private long dateExplosion;
+	private long datePose;
 	private boolean isBurst;
 	private static final long latenceExplosion = 5000;
 	
@@ -16,7 +16,7 @@ public class Bombe extends Case {
 		this.hauteur = hauteur;
 		this.tailleFlamme = tailleFlamme;
 		this.plateau = plateau;
-		this.dateExplosion = System.currentTimeMillis()+latenceExplosion;
+		this.datePose = System.currentTimeMillis();
 		this.isBurst = false;
 	}
 	
@@ -29,7 +29,7 @@ public class Bombe extends Case {
 	}
 	
 	public void burst(){
-		long dateFinFlamme = dateExplosion+Flamme.duree;
+		long dateFinFlamme = System.currentTimeMillis()+Flamme.duree;
 		plateau.createFlamme(this.largeur+1, this.hauteur, this.tailleFlamme, Direction.E, dateFinFlamme);
 		plateau.createFlamme(this.largeur-1, this.hauteur, this.tailleFlamme, Direction.O, dateFinFlamme);
 		plateau.createFlamme(this.largeur, this.hauteur+1, this.tailleFlamme, Direction.S, dateFinFlamme);
@@ -43,7 +43,7 @@ public class Bombe extends Case {
 	}
 	
 	public boolean readyToExplode(){
-		return dateExplosion < System.currentTimeMillis();
+		return datePose+latenceExplosion < System.currentTimeMillis();
 	}
 
 	public boolean samePlace(Bombe b){
@@ -52,6 +52,14 @@ public class Bombe extends Case {
 	
 	public boolean samePlace(Flamme f){
 		return f.getLargeur()==this.largeur && f.getHauteur()==this.hauteur;
+	}
+	
+	public int getHauteur() {
+		return this.yPixel()/Plateau.hauteurImage;
+	}
+
+	public int getLargeur() {
+		return this.xPixel()/Plateau.largeurImage;
 	}
 		
 }

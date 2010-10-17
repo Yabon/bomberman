@@ -33,6 +33,7 @@ public class Plateau extends Ucigame {
 	private Sound blowSound = getSound("../sound/souffleFlammes.mp3");
 
 	private Case[][] grilleJeu;
+	private int[][] effets;
 	private List<Bombe> bombes;
 	private List<Flamme> flammes;
 	public static int hauteurImage, largeurImage;
@@ -43,8 +44,9 @@ public class Plateau extends Ucigame {
 	public Plateau() {
 
 		grilleJeu = new Case[13][15];
+		effets = new int[13][15];
 		// à implémenter : génération d'un plateau aléatoire
-		genererTerrain();
+		
 		// placer les joueurs a implémenter
 
 		bombes = new LinkedList<Bombe>(); // taille de la liste a l'origine
@@ -58,6 +60,13 @@ public class Plateau extends Ucigame {
 	}
 
 	private void genererTerrain() {
+		
+		// génération de la grille d'effets (flammes)
+		for (int hauteur = 1; hauteur < grilleJeu.length - 1; hauteur++) {
+			for (int largeur = 1; largeur < grilleJeu[0].length - 1; largeur++) {
+				effets[hauteur][largeur] = 0;
+			}
+		}
 
 		// generation du millieu du plateau
 		for (int hauteur = 1; hauteur < grilleJeu.length - 1; hauteur++) {
@@ -132,8 +141,8 @@ public class Plateau extends Ucigame {
 		hauteurImage = getImage(imageChemin).height();
 		largeurImage = getImage(imageChemin).width();
 		
-		chargerSauvegarde();
-		//genererTerrain();
+		//chargerSauvegarde();
+		genererTerrain();
 		genererJoueurs();
 
 		bombes = new LinkedList<Bombe>();
@@ -280,6 +289,7 @@ public class Plateau extends Ucigame {
 			} else {
 				f.hide();
 				flammes.remove(f);
+				effets[f.getHauteur()][f.getLargeur()]--;
 			}
 		}
 
@@ -292,7 +302,7 @@ public class Plateau extends Ucigame {
 				b.draw();
 				joueur1.stopIfCollidesWith(b);
 				joueur2.stopIfCollidesWith(b);
-				if (b.readyToExplode()) {
+				if (b.readyToExplode() || effets[b.getHauteur()][b.getLargeur()]>0) {
 					b.burst();
 					explodeSound.play();
 					blowSound.play();
@@ -379,6 +389,7 @@ public class Plateau extends Ucigame {
 					grilleJeu[hauteur][largeur] = new Chemin(getImage(imageChemin), hauteur, largeur);
 					taille = 0;
 				}
+				effets[hauteur][largeur]++;
 				if(taille==0){
 					switch(d){
 					case N :
