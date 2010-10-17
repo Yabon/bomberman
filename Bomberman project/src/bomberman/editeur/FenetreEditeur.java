@@ -5,9 +5,7 @@ import java.awt.Container;
 import java.awt.GridLayout;
 
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JPanel;
 
 public class FenetreEditeur {

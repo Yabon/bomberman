@@ -18,5 +18,9 @@ public class Joueur extends Sprite {
 	public int getLargeur() {
 		return (this.xPixel()+14)/Plateau.largeurImage;
 	}
+	
+	public int getNumero(){
+		return numero;
+	}
 
 }
