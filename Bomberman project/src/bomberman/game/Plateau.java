@@ -141,8 +141,6 @@ public class Plateau extends Ucigame {
 		genererTerrain();
 		genererJoueurs();
 
-		bombes = new LinkedList<Bombe>();
-
 		resize(15 * 64, 13 * 48);
 		window.size(15 * 64, 13 * 48);
 		window.title("IBomberMan");
@@ -274,7 +272,7 @@ public class Plateau extends Ucigame {
 			}
 		}
 
-		// affichage des flammes et gestion de leur expansion
+		// Affichage des flammes et gestion de leur expansion
 		for (int i = 0; i < flammes.size(); i++) {
 			Flamme f = flammes.get(i);
 			if (!f.isBlown()) {
@@ -384,13 +382,14 @@ public class Plateau extends Ucigame {
 
 	public void createFlamme(int hauteur, int largeur, int taille, Direction d, long dateFin) {
 		if (hauteur > 0 && largeur > 0 && hauteur < grilleJeu.length && largeur < grilleJeu[0].length) {
+			// si la flamme est dans l'aire de jeu
 			if (grilleJeu[hauteur][largeur].est_destructible()) {
-				if(!(grilleJeu[hauteur][largeur] instanceof Chemin)){
+				if(!(grilleJeu[hauteur][largeur] instanceof Chemin)){ // destruction de l'obstacle
 					grilleJeu[hauteur][largeur] = new Chemin(getImage(imageChemin), hauteur, largeur);
 					taille = 0;
 				}
 				effets[hauteur][largeur]++;
-				if(taille==0){
+				if(taille==0){ // Si c'est le dernier carré de flammes, on affiche le bout
 					switch(d){
 					case N :
 						flammes.add(new Flamme(hauteur, largeur, getImage(imageFlamme0N),
@@ -409,8 +408,8 @@ public class Plateau extends Ucigame {
 								taille, this, d, dateFin));
 						break;
 					}
-				} else {
-					if (d != null) {
+				} else { // sinon, on affiche le corps
+					if (d != null) { // Si c'est une branche
 						switch (d) {
 						case N:
 							flammes.add(new Flamme(hauteur, largeur,
@@ -433,7 +432,7 @@ public class Plateau extends Ucigame {
 									dateFin));
 							break;
 						}
-					} else {
+					} else { // Sinon, c'est le centre de l'explosion
 						flammes.add(new Flamme(hauteur, largeur,
 								getImage(imageFlamme00), taille, this, d,
 								dateFin));
